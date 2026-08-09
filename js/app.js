@@ -152,6 +152,106 @@
   }
 
   // =============================================
+  // RENDER: PERSONALITY SECTION
+  // =============================================
+  function renderPersonality(d) {
+    if (!d.personal) return;
+    const p = d.personal;
+    const layout = $('#personalityLayout');
+
+    // Build MBTI trait tags
+    const mbtiTraits = (p.mbti && p.mbti.traits) ? p.mbti.traits.map(t =>
+      `<span class="connection-trait"><span class="ct-label">${escapeHTML(t.trait)}</span>${escapeHTML(t.desc)}</span>`
+    ).join('') : '';
+
+    // Build zodiac trait tags
+    const zodiacTraits = (p.zodiac && p.zodiac.traits) ? p.zodiac.traits.map(t =>
+      `<span class="profile-trait-tag">${escapeHTML(t)}</span>`
+    ).join('') : '';
+
+    const avatarHTML = p.avatar
+      ? `<img class="profile-avatar-img" src="${escapeHTML(p.avatar)}" alt="Avatar">`
+      : `<div class="profile-avatar-fallback">何</div>`;
+
+    layout.innerHTML = `
+      <!-- Left: Profile Card -->
+      <div class="profile-card">
+        <div class="profile-card-top">
+          <div class="profile-avatar-wrapper">${avatarHTML}</div>
+          <div class="profile-name">${escapeHTML(d.basics.name)}</div>
+          <div class="profile-role">${escapeHTML(d.basics.label)}</div>
+          <div class="profile-badges">
+            <span class="profile-badge badge-mbti">💜 ENFJ · ${escapeHTML(p.mbti.nickname)}</span>
+            <span class="profile-badge badge-zodiac">♑ ${escapeHTML(p.zodiac.sign)}</span>
+          </div>
+        </div>
+        <div class="profile-stats">
+          <div class="profile-stat">
+            <div class="stat-num">4</div>
+            <div class="stat-label">实习经历</div>
+          </div>
+          <div class="profile-stat">
+            <div class="stat-num">3</div>
+            <div class="stat-label">项目经历</div>
+          </div>
+          <div class="profile-stat">
+            <div class="stat-num">985</div>
+            <div class="stat-label">硕士在读</div>
+          </div>
+        </div>
+        <div class="profile-body">
+          <div class="profile-body-label">✨ 摩羯座特质</div>
+          <div class="profile-trait-tags">${zodiacTraits}</div>
+        </div>
+      </div>
+
+      <!-- Right: Traits + Connection -->
+      <div class="personality-right">
+        <!-- Personality Cards -->
+        <div class="personality-cards">
+          ${(p.personalityCards || []).map(card => `
+            <div class="person-card">
+              <span class="pc-emoji">${escapeHTML(card.emoji)}</span>
+              <div class="pc-title">${escapeHTML(card.title)}</div>
+              <p class="pc-content">${escapeHTML(card.content)}</p>
+            </div>
+          `).join('')}
+        </div>
+
+        <!-- MBTI + Zodiac Connection -->
+        <div class="connection-cards">
+          <div class="connection-card">
+            <div class="connection-header">
+              <div class="connection-icon mbti">💜</div>
+              <div>
+                <div class="connection-title">ENFJ · ${escapeHTML(p.mbti.nickname)}</div>
+                <div class="connection-subtitle">Myers-Briggs Type Indicator</div>
+              </div>
+            </div>
+            <div class="connection-traits">${mbtiTraits}</div>
+            <p class="connection-text">${escapeHTML(p.mbti.pmConnection)}</p>
+          </div>
+          <div class="connection-card">
+            <div class="connection-header">
+              <div class="connection-icon zodiac">♑</div>
+              <div>
+                <div class="connection-title">${escapeHTML(p.zodiac.sign)} · ${escapeHTML(p.zodiac.element)}</div>
+                <div class="connection-subtitle">Zodiac Sign</div>
+              </div>
+            </div>
+            <div class="connection-traits">
+              ${(p.zodiac.traits || []).map(t =>
+                `<span class="connection-trait"><span class="ct-label">${escapeHTML(t)}</span></span>`
+              ).join('')}
+            </div>
+            <p class="connection-text">${escapeHTML(p.zodiac.pmConnection)}</p>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  // =============================================
   // MODAL
   // =============================================
   function openModal(id) {
@@ -269,6 +369,7 @@
     renderHighlights(data);
     renderPortfolio(data);
     renderResearch(data);
+    renderPersonality(data);
 
     setupFilters();
     setupModal();

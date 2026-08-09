@@ -892,7 +892,306 @@ body {
 }
 
 /* ============================================
-   RESPONSIVE
+   PERSONALITY / ABOUT ME
+   ============================================ */
+.personality {
+  padding: 80px 0;
+  background: var(--bg-secondary);
+}
+
+.personality-layout {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+/* --- Profile Card (Left Column) --- */
+.profile-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  border: 1px solid var(--card-border);
+  box-shadow: var(--shadow-md);
+  position: sticky;
+  top: 88px;
+}
+
+.profile-card-top {
+  background: linear-gradient(135deg, #8B5CF6 0%, #EC4899 50%, #F59E0B 100%);
+  padding: 32px 24px 48px;
+  text-align: center;
+  position: relative;
+}
+
+.profile-avatar-wrapper {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  margin: 0 auto 16px;
+  border: 4px solid rgba(255,255,255,0.5);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+  overflow: hidden;
+  background: white;
+}
+
+.profile-avatar-wrapper .profile-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-avatar-wrapper .profile-avatar-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+  font-weight: 800;
+  color: #8B5CF6;
+  background: linear-gradient(135deg, #F5F3FF 0%, #FDF2F8 100%);
+}
+
+.profile-card-top .profile-name {
+  font-size: 22px;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 4px;
+}
+
+.profile-card-top .profile-role {
+  font-size: 13px;
+  color: rgba(255,255,255,0.8);
+  font-weight: 500;
+}
+
+/* Badge Row */
+.profile-badges {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.profile-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 12.5px;
+  font-weight: 700;
+  color: white;
+  backdrop-filter: blur(4px);
+  border: 1.5px solid rgba(255,255,255,0.3);
+}
+
+.badge-mbti {
+  background: rgba(139, 92, 246, 0.4);
+}
+
+.badge-zodiac {
+  background: rgba(236, 72, 153, 0.4);
+}
+
+/* Stats Row */
+.profile-stats {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.profile-stat {
+  text-align: center;
+}
+
+.profile-stat .stat-num {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text-heading);
+}
+
+.profile-stat .stat-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+}
+
+/* Personality Tags Inside Profile Card */
+.profile-body {
+  padding: 20px 24px;
+}
+
+.profile-body-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.profile-trait-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.profile-trait-tag {
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  background: #FDF2F8;
+  color: #BE185D;
+  font-weight: 500;
+  border: 1px solid #FCE7F3;
+}
+
+/* --- Right Column --- */
+.personality-right {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Personality Cards */
+.personality-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.person-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  padding: 24px 20px;
+  border: 1px solid var(--card-border);
+  transition: all var(--transition-smooth);
+  text-align: center;
+}
+
+.person-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-3px);
+}
+
+.person-card .pc-emoji {
+  font-size: 36px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.person-card .pc-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-heading);
+  margin-bottom: 8px;
+}
+
+.person-card .pc-content {
+  font-size: 13px;
+  color: var(--text-body);
+  line-height: 1.7;
+}
+
+/* MBTI + Zodiac Connection Cards */
+.connection-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.connection-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  border: 1px solid var(--card-border);
+  transition: all var(--transition-smooth);
+}
+
+.connection-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.connection-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.connection-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.connection-icon.mbti {
+  background: linear-gradient(135deg, #EDE9FE, #DDD6FE);
+  color: #7C3AED;
+}
+
+.connection-icon.zodiac {
+  background: linear-gradient(135deg, #FCE7F3, #FBCFE8);
+  color: #DB2777;
+}
+
+.connection-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-heading);
+}
+
+.connection-subtitle {
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+/* Trait bars */
+.connection-traits {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.connection-trait {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 600;
+  background: var(--bg-secondary);
+  color: var(--text-body);
+}
+
+.connection-trait .ct-label {
+  font-weight: 700;
+  color: var(--text-heading);
+}
+
+.connection-text {
+  font-size: 13.5px;
+  color: var(--text-body);
+  line-height: 1.8;
+  font-style: italic;
+  padding-left: 12px;
+  border-left: 3px solid var(--card-border);
+}
+
+/* ============================================
+   RESPONSIVE (including new personality section)
    ============================================ */
 @media (max-width: 1024px) {
   .hero-container {
@@ -942,6 +1241,22 @@ body {
   .highlights-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .personality-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-card {
+    position: static;
+  }
+
+  .personality-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .connection-cards {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 768px) {
@@ -987,6 +1302,10 @@ body {
 
   .research-grid,
   .highlights-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .personality-cards {
     grid-template-columns: 1fr;
   }
 

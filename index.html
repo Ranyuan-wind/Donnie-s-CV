@@ -3,70 +3,135 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>何东宁 - 策略产品经理 | 个人简历</title>
-  <meta name="description" content="何东宁的个人简历 - 策略产品经理，大连理工大学硕士，拥有多家互联网大厂产品实习经历">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+  <title>Donnie He — 策略产品经理</title>
+  <meta name="description" content="何东宁的个人主页 - 策略产品经理，AI 产品实践者">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <!-- Loading -->
-  <div id="loading" class="loading-screen">
-    <div class="spinner"></div>
+
+  <!-- ====== Navigation ====== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#hero" class="nav-brand">Donnie<span class="brand-dot">.</span></a>
+      <div class="nav-links">
+        <a href="#hero" class="nav-link active">Home</a>
+        <a href="#highlights" class="nav-link">About</a>
+        <a href="#portfolio" class="nav-link">Portfolio</a>
+      </div>
+      <button class="lang-toggle" id="langToggle" title="Switch Language">
+        <span class="lang-active">中文</span>
+      </button>
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ====== Hero Section ====== -->
+  <section class="hero" id="hero">
+    <div class="hero-container">
+      <div class="hero-content">
+        <p class="hero-greeting">👋 Hello, I'm</p>
+        <h1 class="hero-name" id="heroName">何东宁</h1>
+        <h2 class="hero-title" id="heroTitle">策略产品经理</h2>
+        <p class="hero-subtitle" id="heroSubtitle">大连理工大学 企业管理硕士 · AI 策略产品方向</p>
+        <p class="hero-bio" id="heroBio">专注于 AI 策略产品管理，拥有快手、滴滴、百度、网易云音乐等多段互联网大厂产品实习经历。擅长数据驱动的策略设计与 Agent 产品搭建。</p>
+        <div class="hero-cta">
+          <a href="#portfolio" class="btn btn-primary">View Portfolio →</a>
+          <a href="#highlights" class="btn btn-outline">About Me</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-avatar-glow">
+          <div class="hero-avatar" id="heroAvatar">何</div>
+        </div>
+        <div class="hero-floating-card card-1">
+          <span class="float-icon">📊</span>
+          <span class="float-text">数据驱动</span>
+        </div>
+        <div class="hero-floating-card card-2">
+          <span class="float-icon">🤖</span>
+          <span class="float-text">AI 产品</span>
+        </div>
+        <div class="hero-floating-card card-3">
+          <span class="float-icon">🌍</span>
+          <span class="float-text">国际化</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== Key Highlights ====== -->
+  <section class="highlights" id="highlights">
+    <div class="section-container">
+      <h2 class="section-title">Core Strengths</h2>
+      <p class="section-subtitle">学术背景与核心竞争力</p>
+      <div class="highlights-grid" id="highlightsGrid"></div>
+    </div>
+  </section>
+
+  <!-- ====== Portfolio Section ====== -->
+  <section class="portfolio" id="portfolio">
+    <div class="section-container">
+      <h2 class="section-title">Portfolio</h2>
+      <p class="section-subtitle">实习项目与个人作品</p>
+
+      <!-- Filter Tabs -->
+      <div class="filter-tabs" id="filterTabs">
+        <button class="filter-btn active" data-filter="all">All Projects</button>
+        <button class="filter-btn" data-filter="策略产品">策略产品</button>
+        <button class="filter-btn" data-filter="AI产品">AI 产品</button>
+        <button class="filter-btn" data-filter="产品调研">产品调研</button>
+        <button class="filter-btn" data-filter="数据分析">数据分析</button>
+        <button class="filter-btn" data-filter="国际化">国际化</button>
+      </div>
+
+      <!-- Project Grid -->
+      <div class="project-grid" id="projectGrid"></div>
+    </div>
+  </section>
+
+  <!-- ====== Research Interests ====== -->
+  <section class="research">
+    <div class="section-container">
+      <h2 class="section-title">Research Interests</h2>
+      <p class="section-subtitle">关注方向与技术领域</p>
+      <div class="research-grid" id="researchGrid"></div>
+    </div>
+  </section>
+
+  <!-- ====== Footer ====== -->
+  <footer class="footer">
+    <div class="footer-container">
+      <p class="footer-text">© 2026 Donnie He. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="mailto:hedongning@example.com" class="footer-link">Email</a>
+        <a href="https://github.com/Ranyuan-wind" class="footer-link" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://linkedin.com" class="footer-link" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ====== Detail Modal ====== -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal" id="modal" role="dialog" aria-modal="true">
+      <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+      <div class="modal-header" id="modalHeader"></div>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-footer">
+        <button class="btn btn-outline modal-close-btn">Close</button>
+      </div>
+    </div>
   </div>
 
-  <!-- Main Container -->
-  <main id="app" class="app-container" style="display:none;">
-    <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-inner">
-        <div class="avatar-section">
-          <div class="avatar" id="avatar">何</div>
-          <h1 class="name" id="sidebar-name"></h1>
-          <p class="title" id="sidebar-title"></p>
-        </div>
-
-        <div class="contact-info" id="contact-info"></div>
-
-        <div class="sidebar-section" id="sidebar-skills"></div>
-      </div>
-    </aside>
-
-    <!-- Main Content -->
-    <div class="main-content">
-      <!-- About -->
-      <section class="section" id="about-section">
-        <h2 class="section-title">🙋 关于我</h2>
-        <p class="summary-text" id="summary-text"></p>
-      </section>
-
-      <!-- Education -->
-      <section class="section" id="education-section">
-        <h2 class="section-title">🎓 教育经历</h2>
-        <div id="education-container"></div>
-      </section>
-
-      <!-- Internships -->
-      <section class="section" id="internships-section">
-        <h2 class="section-title">💼 实习经历</h2>
-        <div id="internships-container"></div>
-      </section>
-
-      <!-- Projects -->
-      <section class="section" id="projects-section">
-        <h2 class="section-title">🚀 项目经历</h2>
-        <div id="projects-container"></div>
-      </section>
-
-      <!-- Personal -->
-      <section class="section" id="personal-section">
-        <h2 class="section-title">🌟 个人特质</h2>
-        <div id="personal-container"></div>
-      </section>
-    </div>
-  </main>
-
-  <!-- Admin Link (hidden in production, visible in dev) -->
-  <a href="/admin/" class="admin-link" title="管理后台" id="admin-link">⚙️</a>
+  <!-- Mobile Nav Overlay -->
+  <div class="mobile-nav-overlay" id="mobileNavOverlay">
+    <button class="mobile-nav-close" id="mobileNavClose">&times;</button>
+    <a href="#hero" class="mobile-nav-link">Home</a>
+    <a href="#highlights" class="mobile-nav-link">About</a>
+    <a href="#portfolio" class="mobile-nav-link">Portfolio</a>
+  </div>
 
   <script src="js/app.js"></script>
 </body>

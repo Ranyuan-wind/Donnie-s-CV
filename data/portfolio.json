@@ -1,0 +1,292 @@
+{
+  "basics": {
+    "name": "何东宁",
+    "nameEn": "Donnie He",
+    "label": "策略产品经理",
+    "labelEn": "Strategy Product Manager",
+    "email": "hedongning@example.com",
+    "phone": "+86 138-0000-0000",
+    "location": "大连 / 北京",
+    "summary": "大连理工大学企业管理硕士，专注于 AI 策略产品方向。拥有快手、滴滴、百度、网易云音乐等多段互联网大厂产品实习经历，擅长数据驱动的策略设计与 AI Agent 产品搭建。",
+    "summaryEn": "Master's candidate at Dalian University of Technology, focused on AI strategy product management. Multiple internship experiences at top internet companies including Kuaishou, DiDi, Baidu, and NetEase Cloud Music.",
+    "avatar": ""
+  },
+  "highlights": [
+    {
+      "icon": "school",
+      "title": "大连理工大学",
+      "subtitle": "985 硕士 · 企业管理",
+      "description": "高级机器学习、平台治理、统计与计量分析等前沿方向"
+    },
+    {
+      "icon": "ai",
+      "title": "AI 产品实践",
+      "subtitle": "Agent + LLM 应用",
+      "description": "独立搭建 Agent 产品，参与大模型建设与策略优化"
+    },
+    {
+      "icon": "data",
+      "title": "数据驱动决策",
+      "subtitle": "策略设计与实验",
+      "description": "SQL 多维分析、DID 实验设计、A/B Test 全流程"
+    }
+  ],
+  "portfolio": [
+    {
+      "id": "kuaishou",
+      "type": "internship",
+      "category": [
+        "策略产品",
+        "AI产品"
+      ],
+      "company": "快手",
+      "companyEn": "Kuaishou",
+      "department": "评论治理组",
+      "role": "策略产品实习生",
+      "date": "2025.11 - 2026.07",
+      "status": "实习经历",
+      "gradient": "linear-gradient(135deg, #FF6B35 0%, #FF441F 100%)",
+      "logo": "快",
+      "abstract": "主导文本轻量化大模型建设与 Agent 研判链路搭建，推动模型准召提升至 80%/80%，解决线上约 30% 文本漏召问题。",
+      "keywords": [
+        "内容治理",
+        "LLM应用",
+        "Agent搭建",
+        "用户画像",
+        "召回策略",
+        "风险管控"
+      ],
+      "details": {
+        "highlights": [
+          {
+            "title": "模型能力建设",
+            "content": "主导参与文本轻量化大模型建设，完成召回边界定义、训练评测集共建、特征优化及效果评估，推动模型准召提升至 80%/80%，解决线上约 30% 的文本漏召问题。"
+          },
+          {
+            "title": "Agent 链路搭建",
+            "content": "构建高危用户池并搭建 Agent 研判链路，实现高危用户分层处置。上线后隐晦违规用户高准版本准召 80%/45.9%、高召版本准召 18%/91%。同时搭建“粗召+Agent 研判”链路，低成本拦截各类违规图评，覆盖标签下 20% 的违规内容。"
+          },
+          {
+            "title": "网暴专项治理",
+            "content": "主导搭建“事前预警—事中干预—事后闭环”全链路治理体系，Q2 未再出现聚集性高风险网暴问题反馈。"
+          },
+          {
+            "title": "策略体系完善",
+            "content": "基于“立法—识别—处置”框架梳理机审链路短板。Q4 用户有效举报率下降 55%，大盘风险水位下降 7.14%，误伤率下降 30%。"
+          }
+        ]
+      }
+    },
+    {
+      "id": "didi",
+      "type": "internship",
+      "category": [
+        "策略产品",
+        "国际化"
+      ],
+      "company": "滴滴",
+      "companyEn": "DiDi",
+      "department": "IBG - Intl Product",
+      "role": "治理产品实习生",
+      "date": "2025.06 - 2025.09",
+      "status": "实习经历",
+      "gradient": "linear-gradient(135deg, #F97316 0%, #EA580C 100%)",
+      "logo": "滴",
+      "abstract": "面向埃及出行业务，推动成熟治理体系的本地化适配，设计司乘分层策略与城市间 DID 实验，单位成本率下降 60%。",
+      "keywords": [
+        "国际化产品",
+        "策略设计",
+        "DID实验",
+        "成本优化",
+        "司乘判责",
+        "本地化"
+      ],
+      "details": {
+        "highlights": [
+          {
+            "title": "治理能力建设",
+            "content": "面向埃及出行业务治理能力薄弱的问题，推动成熟治理体系的本地化适配及客服 msop 改造，建立更符合当地市场特征的判责与治理链路，预期单位成本率降低 50%，人工成本率降低 66%。"
+          },
+          {
+            "title": "判责策略设计",
+            "content": "基于后台进线数据拆解问题归因，协同算法、业务部门设计司乘分层策略，基于数据分布调整策略阈值，同步优化司乘两侧页面交互及人工客服兜底机制，设计推动城市间 DID 实验落地。"
+          },
+          {
+            "title": "实验效果",
+            "content": "埃及治理功能上线后，实验区域单位成本率下降 60%，人工成本降低 70%，误伤降低 29%，功能渗透率拉齐海外成熟业务线水平。"
+          }
+        ]
+      }
+    },
+    {
+      "id": "baidu",
+      "type": "internship",
+      "category": [
+        "AI产品"
+      ],
+      "company": "百度",
+      "companyEn": "Baidu",
+      "department": "MEG 小说事业部",
+      "role": "AI 创新产品实习生",
+      "date": "2024.11 - 2025.02",
+      "status": "实习经历",
+      "gradient": "linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)",
+      "logo": "百",
+      "abstract": "探索 AI+ 小说赛道，搭建热门角色 AI 剧场。定义产品功能框架与模型训练思路，产品上线后人均对话轮次 5.3 轮，开口率 36.5%。",
+      "keywords": [
+        "AI产品",
+        "模型训练",
+        "意图识别",
+        "用户增长",
+        "多轮对话",
+        "效果评估"
+      ],
+      "details": {
+        "highlights": [
+          {
+            "title": "AI赋能小说",
+            "content": "在线阅读行业进入存量竞争阶段，百度小说利用内部模型技术搭建热门角色 AI 剧场，探索 AI+ 小说赛道，实现用户和小说角色的高质量互动，提升用户产品粘性。"
+          },
+          {
+            "title": "模型方案设计",
+            "content": "整合用户需求和业务目标，定义产品功能框架，明确从数据层、模型层到效果评估的模型整体训练思路。参与功能架构、意图识别和多轮记忆机制搭建，提取 6 万条训练数据用作模型预训练。"
+          },
+          {
+            "title": "上线效果",
+            "content": "产品上线后人均对话轮次 5.3 轮，开口率 36.5%，用户满意度 90%，验证了 AI 剧场项目可行性。"
+          }
+        ]
+      }
+    },
+    {
+      "id": "netease",
+      "type": "internship",
+      "category": [
+        "策略产品"
+      ],
+      "company": "网易云音乐",
+      "companyEn": "NetEase Cloud Music",
+      "department": "产品创新中心",
+      "role": "策略产品实习生",
+      "date": "2025.04 - 2025.06",
+      "status": "实习经历",
+      "gradient": "linear-gradient(135deg, #DC2626 0%, #B91C1C 100%)",
+      "logo": "易",
+      "abstract": "负责播客 FM 场景功能设计与兴趣标签系统建设，功能上线后 CTR 14.31%，次日留存 53.42%；标签模块 CTR 24.59%，较基准提升 7.27%。",
+      "keywords": [
+        "内容分发",
+        "兴趣标签",
+        "A/B Test",
+        "推荐策略",
+        "POI召回",
+        "用户留存"
+      ],
+      "details": {
+        "highlights": [
+          {
+            "title": "FM 模块搭建",
+            "content": "参与播客内容分发与功能建设，负责 FM 场景功能设计、页面框架搭建及内容展现方案落地，协同算法制定基于 POI 信息的召回策略。功能上线后 CTR 14.31%，收藏率 30.63%，次日留存 53.42%。"
+          },
+          {
+            "title": "兴趣标签定制",
+            "content": "为降低播客功能用户跳出率，推动兴趣标签系统建设，负责从内容盘点、模块设计到展现形式 A/B Test 的全流程落地。模块上线后 CTR 24.59%，较同类功能基准提升 7.27%。"
+          }
+        ]
+      }
+    },
+    {
+      "id": "agent-product",
+      "type": "project",
+      "category": [
+        "AI产品"
+      ],
+      "company": "朋友圈人设生成器",
+      "companyEn": "Social Persona Generator",
+      "department": "Agent 产品",
+      "role": "独立搭建",
+      "date": "2026.03",
+      "status": "个人项目",
+      "gradient": "linear-gradient(135deg, #0891B2 0%, #0E7490 100%)",
+      "logo": "🤖",
+      "abstract": "面向用户 P 图学习成本高、交互繁琐的痛点，采用 Agent + Workflow 架构，通过自然语言对话实现 AI 图像生成服务。",
+      "keywords": [
+        "Agent",
+        "Workflow",
+        "图生图",
+        "多轮对话",
+        "提示词优化",
+        "模型选型"
+      ],
+      "details": {
+        "highlights": [
+          {
+            "title": "产品逻辑",
+            "content": "面向用户 P 图学习成本高、交互繁琐的核心痛点。采用 Agent + Workflow 的轻量化功能架构，通过自然语言对话和多轮追问，拆解并改写用户需求，通过图生图模型生成期望图片。"
+          },
+          {
+            "title": "工作流程",
+            "content": "全程独立负责智能体落地，挖掘用户核心诉求，定义场景功能；设计 Agent+Workflow 的功能架构，定义“自然语言解析-需求改写-图生图”的工作流程；开展多模型选型与效果对比；针对产品测评结果完成提示词优化、流程优化等迭代动作。"
+          }
+        ]
+      }
+    },
+    {
+      "id": "aging-research",
+      "type": "project",
+      "category": [
+        "产品调研",
+        "数据分析"
+      ],
+      "company": "APP 适老化改造调查",
+      "companyEn": "App Accessibility Research",
+      "department": "市场调研",
+      "role": "队长",
+      "date": "2020.12 - 2021.04",
+      "status": "学术项目",
+      "gradient": "linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)",
+      "logo": "📊",
+      "abstract": "采用德尔菲法、Python 爬虫与 SPSS 多元回归分析，回收 4000+ 有效问卷，为国内软件适老化改造提出科学实证优化建议。",
+      "keywords": [
+        "舆情分析",
+        "Python爬虫",
+        "SPSS",
+        "问卷调查",
+        "因子分析",
+        "回归分析"
+      ],
+      "details": {
+        "highlights": [
+          {
+            "title": "舆情分析",
+            "content": "采用德尔菲法确定项目主题词，使用 Python 编写爬虫工具，在主流社交媒体上采集并分析近 10 年项目相关数据，通过数据处理，构建多维指标体系定量评估市场舆情。"
+          },
+          {
+            "title": "问卷调查",
+            "content": "养老院实地访谈，线上线下不同人群分层同步发放问卷，最终回收有效问卷 4000 余份，后续对问卷反馈进行深度挖掘，准确识别潜在需求。"
+          },
+          {
+            "title": "数据分析",
+            "content": "利用 SPSS 软件对数据进行了严格的信度和效度检验，采用多变量回归和因子分析等先进统计方法，深入挖掘数据之间的内在联系，为国内软件适老化改造提出了科学的实证性优化建议。"
+          }
+        ]
+      }
+    }
+  ],
+  "researchInterests": [
+    {
+      "icon": "ai",
+      "title": "AI 策略产品",
+      "description": "LLM 在内容治理中的应用，Agent 产品架构设计与效果评估"
+    },
+    {
+      "icon": "data",
+      "title": "数据驱动决策",
+      "description": "A/B 实验设计、DID 因果推断、多维指标体系构建"
+    },
+    {
+      "icon": "global",
+      "title": "国际化产品",
+      "description": "产品策略的本地化适配，跨市场用户体验与治理标准建设"
+    }
+  ]
+}

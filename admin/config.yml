@@ -1,7 +1,7 @@
 backend:
   name: github
-  repo: Ranyuan-wind/Donnie-s-CV          # ⚠️ 替换为你的 GitHub 用户名/仓库名
-  branch: main                  # ⚠️ 替换为你的分支名
+  repo: Ranyuan-wind/Donnie-s-CV
+  branch: main
   base_url: https://your-oauth-proxy.example.com  # 👈 部署 OAuth 代理后替换（见 README）
 
 media_folder: "assets"
@@ -11,16 +11,16 @@ locale: "zh_Hans"
 
 collections:
   # ============================================
-  # 简历数据 - 单文件集合
+  # Portfolio Data - Main Site Data
   # ============================================
-  - name: "resume"
-    label: "📋 简历数据"
+  - name: "portfolio"
+    label: "📋 作品集数据"
     editor:
       preview: false
     files:
-      - name: "resume_data"
-        label: "简历内容"
-        file: "data/resume.json"
+      - name: "portfolio_data"
+        label: "网站内容"
+        file: "data/portfolio.json"
         format: json
         fields:
           # --- 基本信息 ---
@@ -29,109 +29,72 @@ collections:
             widget: "object"
             fields:
               - { label: "姓名", name: "name", widget: "string" }
+              - { label: "英文名", name: "nameEn", widget: "string", required: false }
               - { label: "职位", name: "label", widget: "string" }
+              - { label: "英文职位", name: "labelEn", widget: "string", required: false }
               - { label: "邮箱", name: "email", widget: "string", required: false }
               - { label: "电话", name: "phone", widget: "string", required: false }
               - { label: "所在地", name: "location", widget: "string", required: false }
-              - { label: "网站", name: "website", widget: "string", required: false }
               - { label: "个人简介", name: "summary", widget: "text" }
+              - { label: "英文简介", name: "summaryEn", widget: "text", required: false }
               - { label: "头像URL", name: "avatar", widget: "string", required: false }
 
-          # --- 教育经历 ---
-          - label: "教育经历"
-            name: "education"
+          # --- 亮点卡片 ---
+          - label: "核心亮点（首页三栏卡片）"
+            name: "highlights"
             widget: "list"
             fields:
-              - { label: "学校", name: "school", widget: "string" }
-              - { label: "类型标签(如985/双一流)", name: "type", widget: "string", required: false }
-              - { label: "学位", name: "degree", widget: "string" }
-              - { label: "专业", name: "major", widget: "string" }
-              - { label: "开始时间", name: "startDate", widget: "string" }
-              - { label: "结束时间", name: "endDate", widget: "string" }
-              - label: "主修课程"
-                name: "courses"
-                widget: "list"
-                required: false
-                field: { label: "课程名", name: "course", widget: "string" }
-              - label: "曾获荣誉"
-                name: "honors"
-                widget: "list"
-                required: false
-                field: { label: "荣誉", name: "honor", widget: "string" }
-              - label: "竞赛奖项"
-                name: "competitions"
-                widget: "list"
-                required: false
-                field: { label: "奖项", name: "competition", widget: "string" }
-              - label: "校园经历"
-                name: "activities"
-                widget: "list"
-                required: false
-                field: { label: "经历描述", name: "activity", widget: "text" }
+              - { label: "图标标识(school/ai/data)", name: "icon", widget: "string" }
+              - { label: "标题", name: "title", widget: "string" }
+              - { label: "副标题", name: "subtitle", widget: "string" }
+              - { label: "描述", name: "description", widget: "text" }
 
-          # --- 实习经历 ---
-          - label: "实习经历"
-            name: "internships"
+          # --- 作品集项目 ---
+          - label: "作品集项目"
+            name: "portfolio"
             widget: "list"
             fields:
-              - { label: "公司", name: "company", widget: "string" }
+              - { label: "唯一ID", name: "id", widget: "string" }
+              - { label: "类型(internship/project)", name: "type", widget: "string" }
+              - label: "分类标签"
+                name: "category"
+                widget: "list"
+                field: { label: "分类名", name: "cat", widget: "string" }
+              - { label: "公司/项目名", name: "company", widget: "string" }
+              - { label: "英文名", name: "companyEn", widget: "string", required: false }
               - { label: "部门", name: "department", widget: "string" }
-              - { label: "职位", name: "role", widget: "string" }
-              - { label: "开始时间", name: "startDate", widget: "string" }
-              - { label: "结束时间", name: "endDate", widget: "string" }
-              - label: "工作亮点"
-                name: "highlights"
-                widget: "list"
-                fields:
-                  - { label: "标题", name: "title", widget: "string" }
-                  - { label: "内容", name: "content", widget: "text" }
-
-          # --- 项目经历 ---
-          - label: "项目经历"
-            name: "projects"
-            widget: "list"
-            fields:
-              - { label: "项目名称", name: "name", widget: "string" }
               - { label: "角色", name: "role", widget: "string" }
               - { label: "时间", name: "date", widget: "string" }
-              - label: "项目亮点"
-                name: "highlights"
+              - { label: "状态标签", name: "status", widget: "string" }
+              - { label: "卡片渐变色(CSS)", name: "gradient", widget: "string" }
+              - { label: "Logo(文字/emoji)", name: "logo", widget: "string" }
+              - { label: "摘要(2-3句)", name: "abstract", widget: "text" }
+              - label: "策略关键词"
+                name: "keywords"
                 widget: "list"
+                field: { label: "关键词", name: "kw", widget: "string" }
+              - label: "详细信息"
+                name: "details"
+                widget: "object"
                 fields:
-                  - { label: "标题", name: "title", widget: "string" }
-                  - { label: "内容", name: "content", widget: "text" }
+                  - label: "亮点列表"
+                    name: "highlights"
+                    widget: "list"
+                    fields:
+                      - { label: "标题", name: "title", widget: "string" }
+                      - { label: "内容", name: "content", widget: "text" }
 
-          # --- 技能 ---
-          - label: "技能信息"
-            name: "skills"
-            widget: "object"
-            fields:
-              - label: "专业技能"
-                name: "technical"
-                widget: "list"
-                field: { label: "技能名", name: "skill", widget: "string" }
-              - label: "语言能力"
-                name: "languages"
-                widget: "list"
-                fields:
-                  - { label: "语言", name: "name", widget: "string" }
-                  - { label: "水平", name: "level", widget: "string" }
-              - label: "证书"
-                name: "certificates"
-                widget: "list"
-                field: { label: "证书名", name: "certificate", widget: "string" }
-
-          # --- 个人特质 ---
-          - label: "个人特质"
-            name: "personal"
+          # --- 研究方向 ---
+          - label: "研究方向"
+            name: "researchInterests"
             widget: "list"
             fields:
+              - { label: "图标标识(ai/data/global)", name: "icon", widget: "string" }
               - { label: "标题", name: "title", widget: "string" }
-              - { label: "内容", name: "content", widget: "text" }
+              - { label: "描述", name: "description", widget: "text" }
 
 # ============================================
 # Site settings
 # ============================================
 site_url: "https://ranyuan-wind.github.io/Donnie-s-CV"
 display_url: "https://ranyuan-wind.github.io/Donnie-s-CV"
-logo_url: "https://ranyuan-wind.github.io/Donnie-s-CV/assets/logo.svg"

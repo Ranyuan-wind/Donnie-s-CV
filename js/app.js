@@ -1,340 +1,281 @@
 /* ============================================
-   Resume Website - App Renderer
+   Modern Portfolio — App Logic
    ============================================ */
 
 (function () {
   'use strict';
 
-  // --- Helpers ---
-  const $ = (sel, ctx) => (ctx || document).querySelector(sel);
-  const $$ = (sel, ctx) => Array.from((ctx || document).querySelectorAll(sel));
+  const $ = (s, c) => (c || document).querySelector(s);
+  const $$ = (s, c) => Array.from((c || document).querySelectorAll(s));
 
-  function escapeHTML(str) {
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
+  function escapeHTML(s) {
+    const d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
   }
 
-  // Normalize list items: accept both ["str"] and [{"key":"str"}] formats
-  function plainList(arr) {
-    if (!arr || !Array.isArray(arr)) return [];
-    return arr.map(item => {
-      if (typeof item === 'string') return item;
-      if (typeof item === 'object' && item !== null) {
-        // Return the first value found in the object
-        const vals = Object.values(item);
-        return vals.length > 0 ? String(vals[0]) : '';
-      }
-      return String(item);
-    }).filter(Boolean);
-  }
+  // =============================================
+  // DATA LOADING
+  // =============================================
+  let portfolioData = null;
 
-  // Extract percentage/effect metrics from text for visual tags
-  function extractMetrics(text) {
-    const patterns = [
-      /(\d+\.?\d*%)\s*(?:的)?(?:以上|以下|左右)?\s*([^，。,\n]{0,20})/g,
-      /(\d+\.?\d*[万亿kw])\s*([^，。,\n]{0,15})/g,
-    ];
-    const metrics = [];
-    for (const pattern of patterns) {
-      let match;
-      while ((match = pattern.exec(text)) !== null) {
-        const m = match[1] + (match[2] ? match[2].trim().slice(0, 15) : '');
-        if (m.length <= 30 && !metrics.includes(m)) {
-          metrics.push(m);
-        }
-      }
-    }
-    return metrics.slice(0, 6);
-  }
-
-  // --- Render Functions ---
-
-  function renderSidebar(data) {
-    const basics = data.basics;
-
-    // Name & Title
-    $('#sidebar-name').textContent = basics.name;
-    $('#sidebar-title').textContent = basics.label;
-
-    // Avatar
-    const avatar = $('#avatar');
-    if (basics.avatar) {
-      avatar.innerHTML = `<img src="${escapeHTML(basics.avatar)}" alt="${escapeHTML(basics.name)}">`;
-    } else {
-      avatar.textContent = basics.name.charAt(0);
-    }
-
-    // Contact Info
-    const contactHTML = [
-      basics.email ? `<div class="contact-item"><span class="icon">📧</span><a href="mailto:${escapeHTML(basics.email)}">${escapeHTML(basics.email)}</a></div>` : '',
-      basics.phone ? `<div class="contact-item"><span class="icon">📱</span>${escapeHTML(basics.phone)}</div>` : '',
-      basics.location ? `<div class="contact-item"><span class="icon">📍</span>${escapeHTML(basics.location)}</div>` : '',
-      basics.website ? `<div class="contact-item"><span class="icon">🔗</span><a href="${escapeHTML(basics.website)}" target="_blank" rel="noopener">${escapeHTML(basics.website.replace(/^https?:\/\//, ''))}</a></div>` : '',
-    ].filter(Boolean).join('');
-    $('#contact-info').innerHTML = contactHTML;
-
-    // Skills in sidebar
-    renderSidebarSkills(data.skills);
-  }
-
-  function renderSidebarSkills(skills) {
-    if (!skills) return;
-    const container = $('#sidebar-skills');
-    let html = '';
-
-    // Technical Skills
-    const techList = plainList(skills.technical);
-    if (techList.length > 0) {
-      html += '<div class="sidebar-section"><h3>🛠 专业技能</h3><div class="skill-tags">';
-      techList.forEach(s => {
-        html += `<span class="skill-tag">${escapeHTML(s)}</span>`;
-      });
-      html += '</div></div>';
-    }
-
-    // Languages
-    if (skills.languages && skills.languages.length > 0) {
-      html += '<div class="sidebar-section"><h3>🌐 语言能力</h3>';
-      skills.languages.forEach(l => {
-        html += `<div class="lang-item"><div class="lang-name">${escapeHTML(l.name)} — ${escapeHTML(l.level)}</div></div>`;
-      });
-      html += '</div>';
-    }
-
-    // Certificates
-    const certList = plainList(skills.certificates);
-    if (certList.length > 0) {
-      html += '<div class="sidebar-section"><h3>📜 证书</h3>';
-      certList.forEach(c => {
-        html += `<div class="sidebar-cert">${escapeHTML(c)}</div>`;
-      });
-      html += '</div>';
-    }
-
-    container.innerHTML = html;
-  }
-
-  function renderAbout(data) {
-    $('#summary-text').textContent = data.basics.summary;
-  }
-
-  function renderEducation(data) {
-    const container = $('#education-container');
-    if (!data.education || data.education.length === 0) {
-      container.innerHTML = '<p style="color:var(--color-text-lighter)">暂无教育经历</p>';
-      return;
-    }
-
-    let html = '';
-    data.education.forEach(edu => {
-      html += '<div class="edu-card">';
-      html += '<div class="edu-header">';
-      html += '<div>';
-      html += `<span class="edu-school">${escapeHTML(edu.school)}</span>`;
-      if (edu.type) html += `<span class="edu-badge">${escapeHTML(edu.type)}</span>`;
-      html += `<br><span class="edu-degree">${escapeHTML(edu.degree)}</span>`;
-      html += `<span class="edu-major">${escapeHTML(edu.major)}</span>`;
-      html += '</div>';
-      html += `<div class="edu-date">${escapeHTML(edu.startDate)} - ${escapeHTML(edu.endDate)}</div>`;
-      html += '</div>';
-
-      // Courses
-      const courses = plainList(edu.courses);
-      if (courses.length > 0) {
-        html += '<div class="edu-details"><div class="edu-detail-group">';
-        html += '<div class="edu-detail-label">主修课程</div>';
-        html += '<div class="edu-detail-tags">';
-        courses.forEach(c => {
-          html += `<span class="edu-detail-tag">${escapeHTML(c)}</span>`;
-        });
-        html += '</div></div></div>';
-      }
-
-      // Honors
-      const honors = plainList(edu.honors);
-      if (honors.length > 0) {
-        html += '<div class="edu-details"><div class="edu-detail-group">';
-        html += '<div class="edu-detail-label">曾获荣誉</div>';
-        html += '<div class="edu-detail-tags">';
-        honors.forEach(h => {
-          html += `<span class="edu-detail-tag">${escapeHTML(h)}</span>`;
-        });
-        html += '</div></div></div>';
-      }
-
-      // Competitions
-      const competitions = plainList(edu.competitions);
-      if (competitions.length > 0) {
-        html += '<div class="edu-details"><div class="edu-detail-group">';
-        html += '<div class="edu-detail-label">竞赛奖项</div>';
-        html += '<div class="edu-detail-tags">';
-        competitions.forEach(c => {
-          html += `<span class="edu-detail-tag">${escapeHTML(c)}</span>`;
-        });
-        html += '</div></div></div>';
-      }
-
-      // Activities
-      const activities = plainList(edu.activities);
-      if (activities.length > 0) {
-        html += '<div class="edu-details"><div class="edu-detail-group">';
-        html += '<div class="edu-detail-label">校园经历</div>';
-        activities.forEach(a => {
-          html += `<div class="edu-detail-text">${escapeHTML(a)}</div>`;
-        });
-        html += '</div></div>';
-      }
-
-      html += '</div>';
-    });
-
-    container.innerHTML = html;
-  }
-
-  function renderInternships(data) {
-    const container = $('#internships-container');
-    if (!data.internships || data.internships.length === 0) {
-      container.innerHTML = '<p style="color:var(--color-text-lighter)">暂无实习经历</p>';
-      return;
-    }
-
-    let html = '<div class="timeline">';
-    data.internships.forEach(intern => {
-      html += '<div class="timeline-item">';
-      html += '<div class="timeline-dot"></div>';
-      html += '<div class="timeline-card">';
-
-      // Header
-      html += '<div class="timeline-header">';
-      html += '<div>';
-      html += `<span class="timeline-company">${escapeHTML(intern.company)}</span>`;
-      html += `<span class="timeline-role">${escapeHTML(intern.role)}</span>`;
-      html += '</div>';
-      html += '<div class="timeline-meta">';
-      html += `<div class="timeline-date">${escapeHTML(intern.startDate)} - ${escapeHTML(intern.endDate)}</div>`;
-      if (intern.department) {
-        html += `<div class="timeline-dept">${escapeHTML(intern.department)}</div>`;
-      }
-      html += '</div>';
-      html += '</div>';
-
-      // Highlights
-      if (intern.highlights && intern.highlights.length > 0) {
-        intern.highlights.forEach(h => {
-          html += '<div class="highlight-block">';
-          html += `<div class="highlight-title">▸ ${escapeHTML(h.title)}</div>`;
-          html += `<div class="highlight-content">${escapeHTML(h.content)}</div>`;
-
-          // Extract and display metrics
-          const metrics = extractMetrics(h.content);
-          if (metrics.length > 0) {
-            html += '<div class="metrics-tags">';
-            metrics.forEach(m => {
-              html += `<span class="metric-tag">📊 ${escapeHTML(m)}</span>`;
-            });
-            html += '</div>';
-          }
-          html += '</div>';
-        });
-      }
-
-      html += '</div></div>';
-    });
-    html += '</div>';
-
-    container.innerHTML = html;
-  }
-
-  function renderProjects(data) {
-    const container = $('#projects-container');
-    if (!data.projects || data.projects.length === 0) {
-      container.innerHTML = '<p style="color:var(--color-text-lighter)">暂无项目经历</p>';
-      return;
-    }
-
-    let html = '';
-    data.projects.forEach(proj => {
-      html += '<div class="project-card">';
-      html += '<div class="project-header">';
-      html += '<div>';
-      html += `<span class="project-name">${escapeHTML(proj.name)}</span>`;
-      html += `<span class="project-role">${escapeHTML(proj.role)}</span>`;
-      html += '</div>';
-      html += `<div class="project-date">${escapeHTML(proj.date)}</div>`;
-      html += '</div>';
-
-      if (proj.highlights && proj.highlights.length > 0) {
-        proj.highlights.forEach(h => {
-          html += '<div class="highlight-block">';
-          html += `<div class="highlight-title">▸ ${escapeHTML(h.title)}</div>`;
-          html += `<div class="highlight-content">${escapeHTML(h.content)}</div>`;
-          html += '</div>';
-        });
-      }
-
-      html += '</div>';
-    });
-
-    container.innerHTML = html;
-  }
-
-  function renderPersonal(data) {
-    const container = $('#personal-container');
-    if (!data.personal || data.personal.length === 0) {
-      container.innerHTML = '<p style="color:var(--color-text-lighter)">暂无信息</p>';
-      return;
-    }
-
-    let html = '<div class="personal-grid">';
-    data.personal.forEach(p => {
-      // Pick emoji based on title
-      let emoji = '✨';
-      if (p.title.includes('快乐') || p.title.includes('发动机')) emoji = '🎉';
-      else if (p.title.includes('厨师') || p.title.includes('厨')) emoji = '👨‍🍳';
-      else if (p.title.includes('脱口秀') || p.title.includes('演员') || p.title.includes('演讲')) emoji = '🎤';
-
-      html += '<div class="personal-card">';
-      html += `<div class="personal-title">${emoji} ${escapeHTML(p.title)}</div>`;
-      html += `<div class="personal-content">${escapeHTML(p.content)}</div>`;
-      html += '</div>';
-    });
-    html += '</div>';
-
-    container.innerHTML = html;
-  }
-
-  // --- Init ---
-  async function init() {
+  async function loadData() {
     try {
-      const resp = await fetch('data/resume.json');
+      const resp = await fetch('data/portfolio.json');
       if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-      const data = await resp.json();
-
-      renderSidebar(data);
-      renderAbout(data);
-      renderEducation(data);
-      renderInternships(data);
-      renderProjects(data);
-      renderPersonal(data);
-
-      // Show app, hide loading
-      $('#loading').classList.add('hidden');
-      $('#app').style.display = 'flex';
-
-      // Set document title
-      document.title = `${data.basics.name} - ${data.basics.label} | 个人简历`;
+      portfolioData = await resp.json();
+      return portfolioData;
     } catch (err) {
-      console.error('Failed to load resume data:', err);
-      $('#loading').innerHTML = `
-        <div style="text-align:center;color:var(--color-text-light);">
-          <p style="font-size:18px;margin-bottom:10px;">⚠️ 简历数据加载失败</p>
-          <p style="font-size:14px;">请确认 <code>data/resume.json</code> 文件存在</p>
-        </div>`;
+      console.error('Failed to load portfolio data:', err);
+      return null;
     }
   }
 
-  // Start when DOM is ready
+  // =============================================
+  // RENDER: HERO
+  // =============================================
+  function renderHero(d) {
+    const b = d.basics;
+    $('#heroName').textContent = b.name;
+    $('#heroTitle').textContent = b.label;
+    $('#heroSubtitle').textContent = `大连理工大学 企业管理硕士 · AI 策略产品方向`;
+    $('#heroBio').textContent = b.summary;
+    if (b.avatar) {
+      $('#heroAvatar').innerHTML = `<img src="${escapeHTML(b.avatar)}" alt="${escapeHTML(b.name)}">`;
+    }
+  }
+
+  // =============================================
+  // RENDER: HIGHLIGHTS
+  // =============================================
+  const ICON_MAP = {
+    school: '🎓',
+    ai: '🤖',
+    data: '📊',
+    global: '🌍',
+  };
+
+  function renderHighlights(d) {
+    if (!d.highlights) return;
+    const grid = $('#highlightsGrid');
+    grid.innerHTML = d.highlights.map(h => `
+      <div class="highlight-card">
+        <div class="highlight-icon">${ICON_MAP[h.icon] || '✨'}</div>
+        <h3>${escapeHTML(h.title)}</h3>
+        <div class="hl-subtitle">${escapeHTML(h.subtitle)}</div>
+        <p>${escapeHTML(h.description)}</p>
+      </div>
+    `).join('');
+  }
+
+  // =============================================
+  // RENDER: PORTFOLIO GRID
+  // =============================================
+  function renderPortfolio(d) {
+    if (!d.portfolio) return;
+    const grid = $('#projectGrid');
+    grid.innerHTML = d.portfolio.map((item, i) => `
+      <article class="project-card" data-id="${item.id}" data-categories='${JSON.stringify(item.category)}'>
+        <div class="card-banner" style="background:${item.gradient}">
+          <div class="card-logo">${escapeHTML(item.logo)}</div>
+        </div>
+        <div class="card-body">
+          <div class="card-company">${escapeHTML(item.company)}</div>
+          <div class="card-role">${escapeHTML(item.role)} · ${escapeHTML(item.department)}</div>
+          <p class="card-abstract">${escapeHTML(item.abstract)}</p>
+          <div class="card-keywords">
+            ${item.keywords.map(k => `<span class="card-keyword">${escapeHTML(k)}</span>`).join('')}
+          </div>
+          <button class="btn-detail" data-id="${item.id}" aria-label="View details of ${escapeHTML(item.company)}">
+            View Details →
+          </button>
+        </div>
+        <div class="card-footer">
+          <span class="card-date">${escapeHTML(item.date)}</span>
+          <span class="card-status">${escapeHTML(item.status)}</span>
+        </div>
+      </article>
+    `).join('');
+
+    // Bind detail buttons
+    $$('.btn-detail', grid).forEach(btn => {
+      btn.addEventListener('click', () => openModal(btn.dataset.id));
+    });
+  }
+
+  // =============================================
+  // FILTER LOGIC
+  // =============================================
+  function setupFilters() {
+    const btns = $$('.filter-btn');
+    const cards = $$('.project-card');
+
+    btns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Update active state
+        btns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filter = btn.dataset.filter;
+
+        cards.forEach(card => {
+          if (filter === 'all') {
+            card.classList.remove('hidden');
+          } else {
+            const cats = JSON.parse(card.dataset.categories);
+            card.classList.toggle('hidden', !cats.includes(filter));
+          }
+        });
+      });
+    });
+  }
+
+  // =============================================
+  // RENDER: RESEARCH INTERESTS
+  // =============================================
+  const RESEARCH_ICONS = {
+    ai: '🤖',
+    data: '📊',
+    global: '🌍',
+  };
+
+  function renderResearch(d) {
+    if (!d.researchInterests) return;
+    const grid = $('#researchGrid');
+    grid.innerHTML = d.researchInterests.map(r => `
+      <div class="research-card">
+        <div class="research-icon">${RESEARCH_ICONS[r.icon] || '💡'}</div>
+        <h3>${escapeHTML(r.title)}</h3>
+        <p>${escapeHTML(r.description)}</p>
+      </div>
+    `).join('');
+  }
+
+  // =============================================
+  // MODAL
+  // =============================================
+  function openModal(id) {
+    if (!portfolioData) return;
+    const item = portfolioData.portfolio.find(p => p.id === id);
+    if (!item) return;
+
+    // Header
+    $('#modalHeader').innerHTML = `
+      <div class="mh-company">${escapeHTML(item.company)}</div>
+      <div class="mh-role">${escapeHTML(item.role)} · ${escapeHTML(item.department)}</div>
+      <div class="mh-date">${escapeHTML(item.date)}</div>
+    `;
+
+    // Body
+    const highlights = item.details && item.details.highlights ? item.details.highlights : [];
+    $('#modalBody').innerHTML = highlights.map(h => `
+      <div class="modal-highlight">
+        <h4>▸ ${escapeHTML(h.title)}</h4>
+        <p>${escapeHTML(h.content)}</p>
+      </div>
+    `).join('') || '<p style="color:var(--text-muted)">暂无详细信息</p>';
+
+    // Show
+    $('#modalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+
+    // Focus trap
+    $('#modalClose').focus();
+  }
+
+  function closeModal() {
+    $('#modalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function setupModal() {
+    $('#modalClose').addEventListener('click', closeModal);
+    $('.modal-close-btn').addEventListener('click', closeModal);
+    $('#modalOverlay').addEventListener('click', (e) => {
+      if (e.target === $('#modalOverlay')) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && $('#modalOverlay').classList.contains('open')) {
+        closeModal();
+      }
+    });
+  }
+
+  // =============================================
+  // NAVIGATION
+  // =============================================
+  function setupNav() {
+    const navbar = $('#navbar');
+
+    // Scroll shadow
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 10);
+
+      // Update active nav link
+      const sections = $$('section[id]');
+      const links = $$('.nav-link');
+      let current = '';
+      sections.forEach(s => {
+        const top = s.offsetTop - 100;
+        if (window.scrollY >= top) current = s.id;
+      });
+      links.forEach(l => {
+        l.classList.toggle('active', l.getAttribute('href') === `#${current}`);
+      });
+    });
+
+    // Smooth scroll for anchor links
+    $$('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    });
+  }
+
+  // =============================================
+  // MOBILE MENU
+  // =============================================
+  function setupMobileMenu() {
+    const btn = $('#mobileMenuBtn');
+    const overlay = $('#mobileNavOverlay');
+    const close = $('#mobileNavClose');
+    const links = $$('.mobile-nav-link');
+
+    btn.addEventListener('click', () => overlay.classList.add('open'));
+    close.addEventListener('click', () => overlay.classList.remove('open'));
+    links.forEach(l => l.addEventListener('click', () => overlay.classList.remove('open')));
+  }
+
+  // =============================================
+  // INIT
+  // =============================================
+  async function init() {
+    const data = await loadData();
+    if (!data) {
+      document.body.innerHTML = `
+        <div style="display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;gap:16px;font-family:var(--font-sans);">
+          <span style="font-size:48px;">⚠️</span>
+          <p style="font-size:18px;color:var(--text-heading);">数据加载失败</p>
+          <p style="font-size:14px;color:var(--text-muted);">请确认 <code>data/portfolio.json</code> 文件存在</p>
+        </div>`;
+      return;
+    }
+
+    renderHero(data);
+    renderHighlights(data);
+    renderPortfolio(data);
+    renderResearch(data);
+
+    setupFilters();
+    setupModal();
+    setupNav();
+    setupMobileMenu();
+  }
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {

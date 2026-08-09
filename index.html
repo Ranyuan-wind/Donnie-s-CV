@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>何东宁 - 策略产品经理 | 个人简历</title>
+  <meta name="description" content="何东宁的个人简历 - 策略产品经理，大连理工大学硕士，拥有多家互联网大厂产品实习经历">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Loading -->
+  <div id="loading" class="loading-screen">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Main Container -->
+  <main id="app" class="app-container" style="display:none;">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        <div class="avatar-section">
+          <div class="avatar" id="avatar">何</div>
+          <h1 class="name" id="sidebar-name"></h1>
+          <p class="title" id="sidebar-title"></p>
+        </div>
+
+        <div class="contact-info" id="contact-info"></div>
+
+        <div class="sidebar-section" id="sidebar-skills"></div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- About -->
+      <section class="section" id="about-section">
+        <h2 class="section-title">🙋 关于我</h2>
+        <p class="summary-text" id="summary-text"></p>
+      </section>
+
+      <!-- Education -->
+      <section class="section" id="education-section">
+        <h2 class="section-title">🎓 教育经历</h2>
+        <div id="education-container"></div>
+      </section>
+
+      <!-- Internships -->
+      <section class="section" id="internships-section">
+        <h2 class="section-title">💼 实习经历</h2>
+        <div id="internships-container"></div>
+      </section>
+
+      <!-- Projects -->
+      <section class="section" id="projects-section">
+        <h2 class="section-title">🚀 项目经历</h2>
+        <div id="projects-container"></div>
+      </section>
+
+      <!-- Personal -->
+      <section class="section" id="personal-section">
+        <h2 class="section-title">🌟 个人特质</h2>
+        <div id="personal-container"></div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Admin Link (hidden in production, visible in dev) -->
+  <a href="/admin/" class="admin-link" title="管理后台" id="admin-link">⚙️</a>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -39,7 +39,7 @@
       "role": "策略产品实习生",
       "date": "2025.11 - 2026.07",
       "gradient": "linear-gradient(135deg, #FF6B35 0%, #FF441F 100%)",
-      "logo": "快",
+      "logo": "assets/logo-kuaishou.png",
       "abstract": "主导文本轻量化大模型建设与 Agent 研判链路搭建，推动模型准召提升至 80%/80%，解决约 30% 文本漏召。",
       "keywords": [
         "内容治理",
@@ -77,7 +77,7 @@
       "role": "治理产品实习生",
       "date": "2025.06 - 2025.09",
       "gradient": "linear-gradient(135deg, #F97316 0%, #EA580C 100%)",
-      "logo": "滴",
+      "logo": "assets/logo-didi.png",
       "abstract": "面向埃及出行业务，推动治理体系本地化适配，设计司乘分层策略与 DID 实验，单位成本率下降 60%。",
       "keywords": [
         "国际化产品",
@@ -111,7 +111,7 @@
       "role": "AI 创新产品实习生",
       "date": "2024.11 - 2025.02",
       "gradient": "linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)",
-      "logo": "百",
+      "logo": "assets/logo-baidu.png",
       "abstract": "探索 AI+ 小说赛道，搭建热门角色 AI 剧场。产品上线后人均对话轮次 5.3 轮，开口率 36.5%，用户满意度 90%。",
       "keywords": [
         "AI产品",
@@ -145,7 +145,7 @@
       "role": "策略产品实习生",
       "date": "2025.04 - 2025.06",
       "gradient": "linear-gradient(135deg, #DC2626 0%, #B91C1C 100%)",
-      "logo": "易",
+      "logo": "assets/logo-netease.png",
       "abstract": "负责播客 FM 场景功能设计与兴趣标签系统建设，CTR 14.31%，次日留存 53.42%；标签模块 CTR 24.59%。",
       "keywords": [
         "内容分发",

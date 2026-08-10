@@ -10,6 +10,7 @@
 
   let portfolio = null;
   const ICONS = { school: '🎓', ai: '🤖', data: '📊', global: '🌍' };
+  const isImg = s => s && /\.(png|svg|jpe?g|webp|gif)/i.test(s);
 
   // =============================================
   // DATA LOADING
@@ -55,7 +56,10 @@
         <div class="tl-card">
           <div class="tl-card-header">
             <div class="tl-card-left">
-              <div class="tl-logo" style="background:${item.gradient}">${esc(item.logo)}</div>
+              ${isImg(item.logo)
+                ? `<img src="${esc(item.logo)}" alt="${esc(item.company)}" class="tl-logo-img">`
+                : `<div class="tl-logo" style="background:${item.gradient}">${esc(item.logo)}</div>`
+              }
               <div>
                 <div class="tl-company">${esc(item.company)}</div>
                 <span class="tl-role">${esc(item.role)} · ${esc(item.department)}</span>
@@ -86,7 +90,10 @@
     container.innerHTML = items.map(item => `
       <article class="c-card" data-id="${item.id}" data-source="${badgeType === 'works' ? 'works' : 'schoolProjects'}">
         <div class="c-card-banner" style="background:${item.gradient}">
-          <div class="c-card-logo">${esc(item.logo)}</div>
+          ${isImg(item.logo)
+            ? `<img src="${esc(item.logo)}" alt="${esc(item.company)}" class="c-card-logo-img">`
+            : `<div class="c-card-logo">${esc(item.logo)}</div>`
+          }
         </div>
         <div class="c-card-body">
           <div class="c-card-name">${esc(item.company)}</div>

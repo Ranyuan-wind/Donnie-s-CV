@@ -235,6 +235,13 @@ a{color:inherit;text-decoration:none}
   transition:transform .35s var(--ease);
 }
 .tl-card:hover .tl-logo{transform:scale(1.1)}
+.tl-logo-img{
+  width:38px;height:38px;border-radius:var(--r-sm);object-fit:contain;
+  background:#fff;padding:6px;flex-shrink:0;
+  transition:transform .35s var(--ease);
+  box-shadow:0 1px 3px rgba(0,0,0,.06);
+}
+.tl-card:hover .tl-logo-img{transform:scale(1.1)}
 .tl-company{font-size:17px;font-weight:700;color:var(--h)}
 .tl-role{font-size:12.5px;color:var(--m);display:block;margin-top:1px}
 .tl-date{font-size:12px;color:var(--m);font-family:"SF Mono","Fira Code",Consolas,monospace;white-space:nowrap}
@@ -281,6 +288,13 @@ a{color:inherit;text-decoration:none}
   transition:transform .4s var(--ease-spring);
 }
 .c-card:hover .c-card-logo{transform:scale(1.15)}
+.c-card-logo-img{
+  width:52px;height:52px;border-radius:var(--r-md);object-fit:contain;
+  background:#fff;padding:10px;position:relative;z-index:1;
+  transition:transform .4s var(--ease-spring);
+  box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+.c-card:hover .c-card-logo-img{transform:scale(1.15)}
 .c-card-body{padding:20px 24px}
 .c-card-name{font-size:17px;font-weight:700;color:var(--h);margin-bottom:2px}
 .c-card-role{font-size:12.5px;color:var(--m);margin-bottom:10px}

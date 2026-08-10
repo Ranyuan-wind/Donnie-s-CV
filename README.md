@@ -1,7 +1,5 @@
 # 何东宁 个人简历网站
 
-基于 GitHub Pages + Decap CMS 的个人简历/作品集网站，支持自定义域名、可视化后台编辑、长期维护。
-
 > 🔗 当前地址：https://donnie-s-cv.vercel.app
 
 ---

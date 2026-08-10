@@ -10,7 +10,6 @@
 
   let portfolio = null;
   const ICONS = { school: '🎓', ai: '🤖', data: '📊', global: '🌍' };
-  const RI_ICONS = { ai: '🤖', data: '📊', global: '🌍' };
 
   // =============================================
   // DATA LOADING
@@ -109,16 +108,23 @@
   }
 
   // =============================================
-  // RESEARCH INTERESTS
+  // SKILL STACK
   // =============================================
-  function renderInterests() {
-    const list = portfolio.researchInterests;
+  function renderSkillStack() {
+    const list = portfolio.skillStack;
     if (!list) return;
-    $('#interestsRow').innerHTML = list.map(r => `
-      <div class="int-card">
-        <div class="int-icon">${RI_ICONS[r.icon] || '💡'}</div>
-        <h4>${esc(r.title)}</h4>
-        <p>${esc(r.description)}</p>
+    const ICONS_MAP = { business: '📊', tech: '🤖', collab: '🤝' };
+    $('#skillsGrid').innerHTML = list.map(s => `
+      <div class="sk-card">
+        <div class="sk-card-hd">
+          <div class="sk-icon">${ICONS_MAP[s.icon] || '💡'}</div>
+          <div>
+            <h4 class="sk-title">${esc(s.title)}</h4>
+            <p class="sk-sub">${esc(s.subtitle || '')}</p>
+          </div>
+        </div>
+        <p class="sk-desc">${esc(s.description)}</p>
+        <div class="sk-tags">${(s.highlights || []).map(h => `<span class="sk-tag">${esc(h)}</span>`).join('')}</div>
       </div>
     `).join('');
   }
@@ -392,7 +398,7 @@
     renderTimeline();
     renderCardGrid('#worksGridV2', portfolio.works, 'works', '个人作品');
     renderCardGrid('#schoolGridV2', portfolio.schoolProjects, 'school', '学校调研项目');
-    renderInterests();
+    renderSkillStack();
     renderPersonalityV2();
 
     setupScrollReveal();

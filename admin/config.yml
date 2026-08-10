@@ -84,14 +84,19 @@ collections:
                       - { label: "标题", name: "title", widget: "string" }
                       - { label: "内容", name: "content", widget: "text" }
 
-          # --- 研究方向 ---
-          - label: "研究方向"
-            name: "researchInterests"
+          # --- 个人能力栈 ---
+          - label: "个人能力栈"
+            name: "skillStack"
             widget: "list"
             fields:
-              - { label: "图标标识(ai/data/global)", name: "icon", widget: "string" }
+              - { label: "图标标识(business/tech/collab)", name: "icon", widget: "string" }
               - { label: "标题", name: "title", widget: "string" }
+              - { label: "英文副标题", name: "subtitle", widget: "string", required: false }
               - { label: "描述", name: "description", widget: "text" }
+              - label: "能力标签"
+                name: "highlights"
+                widget: "list"
+                field: { label: "标签", name: "tag", widget: "string" }
 
 # ============================================
 # Site settings

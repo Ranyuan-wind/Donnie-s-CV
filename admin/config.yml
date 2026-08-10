@@ -101,5 +101,5 @@ collections:
 # ============================================
 # Site settings
 # ============================================
-site_url: "https://ranyuan-wind.github.io/Donnie-s-CV"
-display_url: "https://ranyuan-wind.github.io/Donnie-s-CV"
+site_url: "https://donnie-s-cv.vercel.app"
+display_url: "https://donnie-s-cv.vercel.app"

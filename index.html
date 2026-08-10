@@ -3,141 +3,159 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Donnie He — 策略产品经理</title>
-  <meta name="description" content="何东宁的个人主页 - 策略产品经理，AI 产品实践者">
+  <title>Donnie He — Strategy Product Manager</title>
+  <meta name="description" content="何东宁 - 策略产品经理 | AI Product | Data-Driven Strategy">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-  <!-- ====== Navigation ====== -->
-  <nav class="navbar" id="navbar">
-    <div class="nav-container">
-      <a href="#hero" class="nav-brand">Donnie<span class="brand-dot">.</span></a>
-      <div class="nav-links">
-        <a href="#hero" class="nav-link active">Home</a>
-        <a href="#highlights" class="nav-link">About</a>
-        <a href="#internships" class="nav-link">Experience</a>
-        <a href="#works" class="nav-link">Portfolio</a>
-      </div>
-      <button class="lang-toggle" id="langToggle">中文</button>
-      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </nav>
+  <!-- ====== Background Ambient Blobs ====== -->
+  <div class="bg-ambient">
+    <div class="bg-blob blob-1"></div>
+    <div class="bg-blob blob-2"></div>
+    <div class="bg-blob blob-3"></div>
+  </div>
 
-  <!-- ====== Hero ====== -->
-  <section class="hero" id="hero">
-    <div class="hero-container">
-      <div class="hero-content">
-        <p class="hero-greeting">👋 Hello, I'm</p>
-        <h1 class="hero-name" id="heroName">何东宁</h1>
-        <h2 class="hero-title" id="heroTitle">策略产品经理</h2>
-        <p class="hero-subtitle" id="heroSubtitle">大连理工大学 企业管理硕士 · AI 策略产品方向</p>
-        <p class="hero-bio" id="heroBio"></p>
-        <div class="hero-cta">
-          <a href="#internships" class="btn btn-primary">View Experience →</a>
-          <a href="#highlights" class="btn btn-outline">About Me</a>
+  <!-- ====== App Layout ====== -->
+  <div class="app-shell">
+
+    <!-- ====== Left Sidebar (Desktop Sticky) ====== -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        <!-- Avatar -->
+        <div class="sb-avatar-wrap" id="sbAvatarWrap">
+          <div class="sb-avatar" id="sbAvatar">何</div>
         </div>
-      </div>
-      <div class="hero-visual">
-        <div class="hero-avatar-glow">
-          <div class="hero-avatar" id="heroAvatar">何</div>
+
+        <!-- Identity -->
+        <div class="sb-identity">
+          <h1 class="sb-name" id="sbName">何东宁</h1>
+          <p class="sb-title" id="sbTitle">策略产品经理</p>
         </div>
-        <div class="hero-floating-card card-1"><span class="float-icon">📊</span><span class="float-text">数据驱动</span></div>
-        <div class="hero-floating-card card-2"><span class="float-icon">🤖</span><span class="float-text">AI 产品</span></div>
-        <div class="hero-floating-card card-3"><span class="float-icon">🌍</span><span class="float-text">国际化</span></div>
+
+        <!-- Bio -->
+        <p class="sb-bio" id="sbBio"></p>
+
+        <!-- Nav -->
+        <nav class="sb-nav" id="sbNav">
+          <a href="#intro" class="sb-nav-link active" data-section="intro">
+            <span class="sb-nav-dot"></span>Home
+          </a>
+          <a href="#internships" class="sb-nav-link" data-section="internships">
+            <span class="sb-nav-dot"></span>Experience
+          </a>
+          <a href="#portfolio" class="sb-nav-link" data-section="portfolio">
+            <span class="sb-nav-dot"></span>Portfolio
+          </a>
+          <a href="#school" class="sb-nav-link" data-section="school">
+            <span class="sb-nav-dot"></span>Research
+          </a>
+          <a href="#personality" class="sb-nav-link" data-section="personality">
+            <span class="sb-nav-dot"></span>About Me
+          </a>
+        </nav>
+
+        <!-- Contact -->
+        <div class="sb-contact" id="sbContact"></div>
       </div>
-    </div>
-  </section>
+    </aside>
 
-  <!-- ====== Core Strengths ====== -->
-  <section class="highlights" id="highlights">
-    <div class="section-container">
-      <h2 class="section-title">Core Strengths</h2>
-      <p class="section-subtitle">学术背景与核心竞争力</p>
-      <div class="highlights-grid" id="highlightsGrid"></div>
-    </div>
-  </section>
+    <!-- ====== Right Scroll Area ====== -->
+    <main class="main-scroll" id="mainScroll">
 
-  <!-- ====== Internship Timeline ====== -->
-  <section class="internships" id="internships">
-    <div class="section-container">
-      <h2 class="section-title">Internship Experience</h2>
-      <p class="section-subtitle">四段互联网大厂策略产品实习 · 悬浮卡片查看详情</p>
-      <div class="timeline" id="timeline"></div>
-    </div>
-  </section>
+      <!-- Hero Intro -->
+      <section class="sec-intro reveal" id="intro">
+        <p class="intro-overline">Hello, I'm Donnie</p>
+        <h2 class="intro-heading">策略产品经理<span class="intro-dot">.</span></h2>
+        <p class="intro-sub">大连理工大学（985）企业管理硕士 · AI 策略产品方向</p>
+        <p class="intro-desc">拥有快手、滴滴、百度、网易云音乐等多段互联网大厂产品实习经历。专注于数据驱动的策略设计与 AI Agent 产品搭建，擅长从 0 到 1 定义问题、设计实验、推动落地。</p>
+        <div class="intro-tags">
+          <span class="intro-tag">AI Product</span>
+          <span class="intro-tag">LLM Application</span>
+          <span class="intro-tag">Data-Driven</span>
+          <span class="intro-tag">Strategy Design</span>
+        </div>
+        <div class="intro-scroll-hint">
+          <span>Scroll to explore</span>
+          <div class="scroll-arrow"></div>
+        </div>
+      </section>
 
-  <!-- ====== Works / 作品集 ====== -->
-  <section class="works-section" id="works">
-    <div class="section-container">
-      <h2 class="section-title">Portfolio</h2>
-      <p class="section-subtitle">个人作品</p>
-      <div class="works-grid" id="worksGrid"></div>
-    </div>
-  </section>
+      <!-- Internship Timeline -->
+      <section class="sec-block" id="internships">
+        <div class="sec-label reveal">Experience</div>
+        <h3 class="sec-heading reveal">实习经历</h3>
+        <p class="sec-desc reveal">四段互联网大厂策略产品实习</p>
+        <div class="timeline-v2" id="timelineV2"></div>
+      </section>
 
-  <!-- ====== School Projects / 学校调研项目 ====== -->
-  <section class="school-section" id="school">
-    <div class="section-container">
-      <h2 class="section-title">School Research Projects</h2>
-      <p class="section-subtitle">大学期间的调研与竞赛项目</p>
-      <div class="project-grid school-grid" id="schoolGrid"></div>
-    </div>
-  </section>
+      <!-- Portfolio / 作品集 -->
+      <section class="sec-block" id="portfolio">
+        <div class="sec-label reveal">Portfolio</div>
+        <h3 class="sec-heading reveal">个人作品</h3>
+        <div class="cards-grid reveal-stagger" id="worksGridV2"></div>
+      </section>
 
-  <!-- ====== Research Interests ====== -->
-  <section class="research" id="research">
-    <div class="section-container">
-      <h2 class="section-title">Research Interests</h2>
-      <p class="section-subtitle">关注方向与技术领域</p>
-      <div class="research-grid" id="researchGrid"></div>
-    </div>
-  </section>
+      <!-- School Projects / 学校调研 -->
+      <section class="sec-block" id="school">
+        <div class="sec-label reveal">School Research</div>
+        <h3 class="sec-heading reveal">学校调研项目</h3>
+        <div class="cards-grid reveal-stagger" id="schoolGridV2"></div>
+      </section>
 
-  <!-- ====== The Person Behind the PM ====== -->
-  <section class="personality" id="personality">
-    <div class="section-container">
-      <h2 class="section-title">The Person Behind the PM</h2>
-      <p class="section-subtitle">策略产品经理的另一面 · 人格与生活</p>
-      <div class="personality-layout" id="personalityLayout"></div>
-    </div>
-  </section>
+      <!-- Research Interests -->
+      <section class="sec-block" id="interests">
+        <div class="sec-label reveal">Focus Areas</div>
+        <h3 class="sec-heading reveal">研究方向</h3>
+        <div class="interests-row reveal-stagger" id="interestsRow"></div>
+      </section>
 
-  <!-- ====== Footer ====== -->
-  <footer class="footer">
-    <div class="footer-container">
-      <p class="footer-text">© 2026 Donnie He. All rights reserved.</p>
-      <div class="footer-links">
-        <a href="mailto:hedongning@example.com" class="footer-link">Email</a>
-        <a href="https://github.com/Ranyuan-wind" class="footer-link" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://linkedin.com" class="footer-link" target="_blank" rel="noopener">LinkedIn</a>
-      </div>
-    </div>
-  </footer>
+      <!-- Personality -->
+      <section class="sec-block" id="personality">
+        <div class="sec-label reveal">Behind the PM</div>
+        <h3 class="sec-heading reveal">The Person Behind the PM</h3>
+        <div class="personality-v2" id="personalityV2"></div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="footer-v2 reveal">
+        <p>© 2026 Donnie He. All rights reserved.</p>
+        <div class="footer-v2-links">
+          <a href="mailto:hedongning@example.com">Email</a>
+          <a href="https://github.com/Ranyuan-wind" target="_blank" rel="noopener">GitHub</a>
+          <a href="#" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <!-- ====== Mobile Header ====== -->
+  <header class="mobile-header" id="mobileHeader">
+    <a href="#intro" class="mh-brand">Donnie.</a>
+    <button class="mh-menu-btn" id="mhMenuBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+  <div class="mobile-nav-overlay" id="mhOverlay">
+    <button class="mh-close" id="mhClose">&times;</button>
+    <a href="#intro" class="mh-link">Home</a>
+    <a href="#internships" class="mh-link">Experience</a>
+    <a href="#portfolio" class="mh-link">Portfolio</a>
+    <a href="#school" class="mh-link">Research</a>
+    <a href="#personality" class="mh-link">About Me</a>
+  </div>
 
   <!-- ====== Detail Modal ====== -->
   <div class="modal-overlay" id="modalOverlay">
-    <div class="modal" id="modal" role="dialog" aria-modal="true">
-      <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
-      <div class="modal-header" id="modalHeader"></div>
-      <div class="modal-body" id="modalBody"></div>
+    <div class="modal-card" id="modalCard" role="dialog" aria-modal="true">
+      <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close">&times;</button>
+      <div class="modal-header" id="modalHeaderEl"></div>
+      <div class="modal-body" id="modalBodyEl"></div>
       <div class="modal-footer">
-        <button class="btn btn-outline modal-close-btn">Close</button>
+        <button class="btn-ghost modal-dismiss">Close</button>
       </div>
     </div>
-  </div>
-
-  <!-- Mobile Nav Overlay -->
-  <div class="mobile-nav-overlay" id="mobileNavOverlay">
-    <button class="mobile-nav-close" id="mobileNavClose">&times;</button>
-    <a href="#hero" class="mobile-nav-link">Home</a>
-    <a href="#highlights" class="mobile-nav-link">About</a>
-    <a href="#internships" class="mobile-nav-link">Experience</a>
-    <a href="#works" class="mobile-nav-link">Portfolio</a>
-    <a href="#personality" class="mobile-nav-link">About Me</a>
   </div>
 
   <script src="js/app.js"></script>

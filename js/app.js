@@ -1,154 +1,106 @@
 /* ============================================
-   Modern Portfolio v3 — Timeline + Sections
+   Donnie He Portfolio — v4: Scroll Animation Engine + Glassmorphism
    ============================================ */
 
 (function () {
   'use strict';
-
   const $ = (s, c) => (c || document).querySelector(s);
   const $$ = (s, c) => Array.from((c || document).querySelectorAll(s));
+  const esc = s => { const d = document.createElement('div'); d.textContent = String(s); return d.innerHTML; };
 
-  function esc(s) {
-    const d = document.createElement('div');
-    d.textContent = s;
-    return d.innerHTML;
-  }
+  let portfolio = null;
+  const ICONS = { school: '🎓', ai: '🤖', data: '📊', global: '🌍' };
+  const RI_ICONS = { ai: '🤖', data: '📊', global: '🌍' };
 
-  let data = null;
-
+  // =============================================
+  // DATA LOADING
+  // =============================================
   async function loadData() {
     try {
       const r = await fetch('data/portfolio.json');
       if (!r.ok) throw new Error(`HTTP ${r.status}`);
-      data = await r.json();
-      return data;
-    } catch (e) { console.error('Load failed:', e); return null; }
+      portfolio = await r.json();
+      return portfolio;
+    } catch (e) { console.error(e); return null; }
   }
 
   // =============================================
-  // HERO
+  // SIDEBAR
   // =============================================
-  function renderHero() {
-    const b = data.basics;
-    $('#heroName').textContent = b.name;
-    $('#heroTitle').textContent = b.label;
-    $('#heroSubtitle').textContent = '大连理工大学 企业管理硕士 · AI 策略产品方向';
-    $('#heroBio').textContent = b.summary;
+  function renderSidebar() {
+    const b = portfolio.basics;
+    const p = portfolio.personal;
     if (b.avatar) {
-      $('#heroAvatar').innerHTML = `<img src="${esc(b.avatar)}" alt="${esc(b.name)}">`;
+      $('#sbAvatar').innerHTML = `<img src="${esc(b.avatar)}" alt="${esc(b.name)}" style="width:100%;height:100%;border-radius:24px;object-fit:cover">`;
     }
+    $('#sbName').textContent = b.name;
+    $('#sbTitle').textContent = b.label;
+    $('#sbBio').textContent = b.summary;
+    $('#sbContact').innerHTML = [
+      b.email ? `<a href="mailto:${esc(b.email)}">📧 ${esc(b.email)}</a>` : '',
+      b.location ? `<span>📍 ${esc(b.location)}</span>` : '',
+    ].filter(Boolean).join('');
   }
 
   // =============================================
-  // CORE STRENGTHS
-  // =============================================
-  const ICONS = { school: '🎓', ai: '🤖', data: '📊', global: '🌍' };
-
-  function renderHighlights() {
-    if (!data.highlights) return;
-    $('#highlightsGrid').innerHTML = data.highlights.map(h => `
-      <div class="highlight-card">
-        <div class="highlight-icon">${ICONS[h.icon] || '✨'}</div>
-        <h3>${esc(h.title)}</h3>
-        <div class="hl-subtitle">${esc(h.subtitle)}</div>
-        <p>${esc(h.description)}</p>
-      </div>
-    `).join('');
-  }
-
-  // =============================================
-  // INTERNSHIP TIMELINE
+  // TIMELINE
   // =============================================
   function renderTimeline() {
-    if (!data.internships) return;
-    $('#timeline').innerHTML = data.internships.map(item => `
-      <div class="timeline-item" data-id="${item.id}" data-source="internships">
-        <div class="timeline-dot"></div>
-        <div class="timeline-card">
-          <div class="timeline-card-header">
-            <div class="timeline-card-left">
-              <div class="timeline-logo" style="background:${item.gradient}">${esc(item.logo)}</div>
+    const list = portfolio.internships;
+    if (!list) return;
+    $('#timelineV2').innerHTML = list.map(item => `
+      <div class="tl-item" data-id="${item.id}" data-source="internships">
+        <div class="tl-dot-wrap"><div class="tl-dot"></div></div>
+        <div class="tl-card">
+          <div class="tl-card-header">
+            <div class="tl-card-left">
+              <div class="tl-logo" style="background:${item.gradient}">${esc(item.logo)}</div>
               <div>
-                <div class="timeline-company">${esc(item.company)}</div>
-                <span class="timeline-role">${esc(item.role)} · ${esc(item.department)}</span>
+                <div class="tl-company">${esc(item.company)}</div>
+                <span class="tl-role">${esc(item.role)} · ${esc(item.department)}</span>
               </div>
             </div>
-            <div class="timeline-date">${esc(item.date)}</div>
+            <div class="tl-date">${esc(item.date)}</div>
           </div>
-          <div class="timeline-abstract">${esc(item.abstract)}</div>
-          <div class="timeline-keywords">
-            ${item.keywords.map(k => `<span class="timeline-keyword">${esc(k)}</span>`).join('')}
-          </div>
-          <div class="timeline-hint">Click for details →</div>
+          <div class="tl-abstract">${esc(item.abstract)}</div>
+          <div class="tl-keywords">${item.keywords.map(k => `<span class="tl-kw">${esc(k)}</span>`).join('')}</div>
         </div>
       </div>
     `).join('');
 
-    // Click to open modal
-    $$('.timeline-card').forEach(card => {
+    $$('.tl-card').forEach(card => {
       card.addEventListener('click', () => {
-        const itemEl = card.closest('.timeline-item');
-        openModal(itemEl.dataset.source, itemEl.dataset.id);
+        const el = card.closest('.tl-item');
+        openModal(el.dataset.source, el.dataset.id);
       });
     });
   }
 
   // =============================================
-  // WORKS / 作品集
+  // GENERIC CARD GRID RENDERER (Works + School)
   // =============================================
-  function renderWorks() {
-    if (!data.works || !data.works.length) return;
-    $('#worksGrid').innerHTML = data.works.map(item => `
-      <article class="work-card" data-id="${item.id}" data-source="works">
-        <div class="work-banner" style="background:${item.gradient}">
-          <div class="work-logo">${esc(item.logo)}</div>
+  function renderCardGrid(containerId, items, badgeType, badgeText) {
+    const container = $(containerId);
+    if (!items || !items.length) { container.innerHTML = ''; return; }
+    container.innerHTML = items.map(item => `
+      <article class="c-card" data-id="${item.id}" data-source="${badgeType === 'works' ? 'works' : 'schoolProjects'}">
+        <div class="c-card-banner" style="background:${item.gradient}">
+          <div class="c-card-logo">${esc(item.logo)}</div>
         </div>
-        <div class="work-body">
-          <div class="work-company">${esc(item.company)}</div>
-          <div class="work-role">${esc(item.role)}</div>
-          <p class="work-abstract">${esc(item.abstract)}</p>
-          <div class="work-keywords">
-            ${item.keywords.map(k => `<span class="work-keyword">${esc(k)}</span>`).join('')}
-          </div>
+        <div class="c-card-body">
+          <div class="c-card-name">${esc(item.company)}</div>
+          <div class="c-card-role">${esc(item.role)}</div>
+          <p class="c-card-desc">${esc(item.abstract)}</p>
+          <div class="c-card-kws">${item.keywords.map(k => `<span class="c-card-kw">${esc(k)}</span>`).join('')}</div>
         </div>
-        <div class="work-footer">
-          <span class="work-date">${esc(item.date)}</span>
-          <span class="work-badge">个人作品</span>
+        <div class="c-card-footer">
+          <span class="c-card-date">${esc(item.date)}</span>
+          <span class="c-card-badge ${badgeType}">${esc(badgeText)}</span>
         </div>
       </article>
     `).join('');
 
-    $$('.work-card').forEach(card => {
-      card.addEventListener('click', () => openModal(card.dataset.source, card.dataset.id));
-    });
-  }
-
-  // =============================================
-  // SCHOOL PROJECTS
-  // =============================================
-  function renderSchoolProjects() {
-    if (!data.schoolProjects || !data.schoolProjects.length) return;
-    $('#schoolGrid').innerHTML = data.schoolProjects.map(item => `
-      <article class="school-card" data-id="${item.id}" data-source="schoolProjects">
-        <div class="school-banner" style="background:${item.gradient}">
-          <div class="school-logo">${esc(item.logo)}</div>
-        </div>
-        <div class="school-body">
-          <div class="school-name">${esc(item.company)}</div>
-          <div class="school-role">${esc(item.role)}</div>
-          <p class="school-abstract">${esc(item.abstract)}</p>
-          <div class="school-keywords">
-            ${item.keywords.map(k => `<span class="school-keyword">${esc(k)}</span>`).join('')}
-          </div>
-        </div>
-        <div class="school-footer">
-          <span class="school-date">${esc(item.date)}</span>
-          <span class="school-badge">学校调研项目</span>
-        </div>
-      </article>
-    `).join('');
-
-    $$('.school-card').forEach(card => {
+    $$('.c-card', container).forEach(card => {
       card.addEventListener('click', () => openModal(card.dataset.source, card.dataset.id));
     });
   }
@@ -156,88 +108,89 @@
   // =============================================
   // RESEARCH INTERESTS
   // =============================================
-  function renderResearch() {
-    if (!data.researchInterests) return;
-    const RI = { ai: '🤖', data: '📊', global: '🌍' };
-    $('#researchGrid').innerHTML = data.researchInterests.map(r => `
-      <div class="research-card">
-        <div class="research-icon">${RI[r.icon] || '💡'}</div>
-        <h3>${esc(r.title)}</h3>
+  function renderInterests() {
+    const list = portfolio.researchInterests;
+    if (!list) return;
+    $('#interestsRow').innerHTML = list.map(r => `
+      <div class="int-card">
+        <div class="int-icon">${RI_ICONS[r.icon] || '💡'}</div>
+        <h4>${esc(r.title)}</h4>
         <p>${esc(r.description)}</p>
       </div>
     `).join('');
   }
 
   // =============================================
-  // PERSONALITY
+  // PERSONALITY V2
   // =============================================
-  function renderPersonality() {
-    const p = data.personal;
+  function renderPersonalityV2() {
+    const p = portfolio.personal;
     if (!p) return;
-    const layout = $('#personalityLayout');
+    const b = portfolio.basics;
+    const container = $('#personalityV2');
 
-    const mbtiTraits = (p.mbti && p.mbti.traits) ? p.mbti.traits.map(t =>
-      `<span class="connection-trait"><span class="ct-label">${esc(t.trait)}</span>${esc(t.desc)}</span>`
+    const mbtiTraits = p.mbti?.traits ? p.mbti.traits.map(t =>
+      `<span class="pv2-conn-trait"><strong>${esc(t.trait)}</strong>${esc(t.desc)}</span>`
     ).join('') : '';
 
-    const zodiacTags = (p.zodiac && p.zodiac.traits) ? p.zodiac.traits.map(t =>
-      `<span class="profile-trait-tag">${esc(t)}</span>`
+    const zodiacTags = p.zodiac?.traits ? p.zodiac.traits.map(t =>
+      `<span class="pv2-trait">${esc(t)}</span>`
     ).join('') : '';
 
     const avatarHTML = p.avatar
-      ? `<img class="profile-avatar-img" src="${esc(p.avatar)}" alt="Avatar">`
-      : `<div class="profile-avatar-fallback">${data.basics.name.charAt(0)}</div>`;
+      ? `<img src="${esc(p.avatar)}" alt="Avatar" style="width:100%;height:100%;object-fit:cover">`
+      : `<div class="pv2-avatar-fallback">${b.name?.charAt(0) || '?'}</div>`;
 
-    layout.innerHTML = `
-      <div class="profile-card">
-        <div class="profile-card-top">
-          <div class="profile-avatar-wrapper">${avatarHTML}</div>
-          <div class="profile-name">${esc(data.basics.name)}</div>
-          <div class="profile-role">${esc(data.basics.label)}</div>
-          <div class="profile-badges">
-            <span class="profile-badge badge-mbti">💜 ENFJ · ${esc(p.mbti.nickname)}</span>
-            <span class="profile-badge badge-zodiac">♑ ${esc(p.zodiac.sign)}</span>
+    container.innerHTML = `
+      <div class="pv2-top">
+        <div class="pv2-profile">
+          <div class="pv2-profile-top">
+            <div class="pv2-avatar-wrap">${avatarHTML}</div>
+            <div class="pv2-name">${esc(b.name)}</div>
+            <div class="pv2-role">${esc(b.label)}</div>
+            <div class="pv2-badges">
+              <span class="pv2-badge mbti">💜 ENFJ · ${esc(p.mbti.nickname)}</span>
+              <span class="pv2-badge zodiac">♑ ${esc(p.zodiac.sign)}</span>
+            </div>
+          </div>
+          <div class="pv2-stats">
+            <div class="pv2-stat"><div class="num">4</div><div class="lbl">实习经历</div></div>
+            <div class="pv2-stat"><div class="num">3</div><div class="lbl">项目经历</div></div>
+            <div class="pv2-stat"><div class="num">985</div><div class="lbl">硕士在读</div></div>
+          </div>
+          <div class="pv2-body">
+            <div class="pv2-body-label">✨ ${esc(p.zodiac.sign)}特质</div>
+            <div class="pv2-traits">${zodiacTags}</div>
           </div>
         </div>
-        <div class="profile-stats">
-          <div class="profile-stat"><div class="stat-num">4</div><div class="stat-label">实习经历</div></div>
-          <div class="profile-stat"><div class="stat-num">3</div><div class="stat-label">项目经历</div></div>
-          <div class="profile-stat"><div class="stat-num">985</div><div class="stat-label">硕士在读</div></div>
-        </div>
-        <div class="profile-body">
-          <div class="profile-body-label">✨ ${esc(p.zodiac.sign)}特质</div>
-          <div class="profile-trait-tags">${zodiacTags}</div>
-        </div>
-      </div>
-      <div class="personality-right">
-        <div class="personality-cards">
+        <div class="pv2-cards">
           ${(p.personalityCards || []).map(c => `
-            <div class="person-card">
-              <span class="pc-emoji">${esc(c.emoji)}</span>
-              <div class="pc-title">${esc(c.title)}</div>
-              <p class="pc-content">${esc(c.content)}</p>
+            <div class="pv2-card">
+              <span class="pv2-card-emoji">${esc(c.emoji)}</span>
+              <div class="pv2-card-title">${esc(c.title)}</div>
+              <p class="pv2-card-text">${esc(c.content)}</p>
             </div>
           `).join('')}
         </div>
-        <div class="connection-cards">
-          <div class="connection-card">
-            <div class="connection-header">
-              <div class="connection-icon mbti">💜</div>
-              <div><div class="connection-title">ENFJ · ${esc(p.mbti.nickname)}</div><div class="connection-subtitle">Myers-Briggs Type Indicator</div></div>
-            </div>
-            <div class="connection-traits">${mbtiTraits}</div>
-            <p class="connection-text">${esc(p.mbti.pmConnection)}</p>
+      </div>
+      <div class="pv2-bottom">
+        <div class="pv2-conn">
+          <div class="pv2-conn-hd">
+            <div class="pv2-conn-icon mbti">💜</div>
+            <div><div class="pv2-conn-ttl">ENFJ · ${esc(p.mbti.nickname)}</div><div class="pv2-conn-sub">Myers-Briggs Type Indicator</div></div>
           </div>
-          <div class="connection-card">
-            <div class="connection-header">
-              <div class="connection-icon zodiac">♑</div>
-              <div><div class="connection-title">${esc(p.zodiac.sign)} · ${esc(p.zodiac.element)}</div><div class="connection-subtitle">Zodiac Sign</div></div>
-            </div>
-            <div class="connection-traits">
-              ${(p.zodiac.traits || []).map(t => `<span class="connection-trait"><span class="ct-label">${esc(t)}</span></span>`).join('')}
-            </div>
-            <p class="connection-text">${esc(p.zodiac.pmConnection)}</p>
+          <div class="pv2-conn-traits">${mbtiTraits}</div>
+          <p class="pv2-conn-text">${esc(p.mbti.pmConnection)}</p>
+        </div>
+        <div class="pv2-conn">
+          <div class="pv2-conn-hd">
+            <div class="pv2-conn-icon zodiac">♑</div>
+            <div><div class="pv2-conn-ttl">${esc(p.zodiac.sign)} · ${esc(p.zodiac.element)}</div><div class="pv2-conn-sub">Zodiac Sign</div></div>
           </div>
+          <div class="pv2-conn-traits">
+            ${(p.zodiac.traits||[]).map(t => `<span class="pv2-conn-trait"><strong>${esc(t)}</strong></span>`).join('')}
+          </div>
+          <p class="pv2-conn-text">${esc(p.zodiac.pmConnection)}</p>
         </div>
       </div>
     `;
@@ -247,33 +200,26 @@
   // MODAL
   // =============================================
   function openModal(source, id) {
-    const collection = data[source];
+    const collection = portfolio[source];
     if (!collection) return;
     const item = collection.find(x => x.id === id);
     if (!item) return;
 
-    const dept = item.department || '';
-    const subline = dept ? `${esc(item.role)} · ${esc(dept)}` : esc(item.role);
+    const subline = item.department ? `${esc(item.role)} · ${esc(item.department)}` : esc(item.role);
 
-    $('#modalHeader').innerHTML = `
+    $('#modalHeaderEl').innerHTML = `
       <div class="mh-company">${esc(item.company)}</div>
       <div class="mh-role">${subline}</div>
       <div class="mh-date">${esc(item.date)}</div>
     `;
 
-    const highlights = item.details && item.details.highlights ? item.details.highlights : [];
-    $('#modalBody').innerHTML = highlights.length
-      ? highlights.map(h => `
-          <div class="modal-highlight">
-            <h4>▸ ${esc(h.title)}</h4>
-            <p>${esc(h.content)}</p>
-          </div>
-        `).join('')
-      : '<p style="color:var(--text-muted)">暂无详细信息</p>';
+    const highlights = item.details?.highlights || [];
+    $('#modalBodyEl').innerHTML = highlights.length
+      ? highlights.map(h => `<div class="modal-hl"><h4>▸ ${esc(h.title)}</h4><p>${esc(h.content)}</p></div>`).join('')
+      : '<p style="color:var(--m)">暂无详细信息</p>';
 
     $('#modalOverlay').classList.add('open');
     document.body.style.overflow = 'hidden';
-    $('#modalClose').focus();
   }
 
   function closeModal() {
@@ -281,9 +227,92 @@
     document.body.style.overflow = '';
   }
 
-  function setupModal() {
-    $('#modalClose').addEventListener('click', closeModal);
-    $('.modal-close-btn').addEventListener('click', closeModal);
+  // =============================================
+  // INTERSECTION OBSERVER — Scroll Reveal
+  // =============================================
+  function setupScrollReveal() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+
+          // Staggered children
+          if (el.classList.contains('reveal-stagger')) {
+            const children = Array.from(el.children);
+            children.forEach((child, i) => {
+              child.style.transitionDelay = `${i * 0.08}s`;
+            });
+          }
+
+          el.classList.add('in-view');
+          observer.unobserve(el);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+    // Observe all .reveal and .reveal-stagger elements
+    $$('.reveal, .reveal-stagger').forEach(el => observer.observe(el));
+
+    // Also stagger timeline items individually
+    $$('.tl-item').forEach((el, i) => {
+      el.style.transitionDelay = `${i * 0.08}s`;
+    });
+  }
+
+  // =============================================
+  // INTERSECTION OBSERVER — ScrollSpy
+  // =============================================
+  function setupScrollSpy() {
+    const sections = $$('section[id]');
+    const navLinks = $$('.sb-nav-link');
+
+    if (!sections.length || !navLinks.length) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          navLinks.forEach(link => {
+            link.classList.toggle('active', link.dataset.section === id);
+          });
+        }
+      });
+    }, { threshold: 0.3, rootMargin: '-10% 0px -60% 0px' });
+
+    sections.forEach(s => observer.observe(s));
+  }
+
+  // =============================================
+  // PARALLAX BACKGROUND BLOBS
+  // =============================================
+  function setupParallax() {
+    const blobs = $$('.bg-blob');
+    if (!blobs.length) return;
+
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      blobs.forEach((blob, i) => {
+        const speed = 0.03 + i * 0.015;
+        blob.style.transform = `translateY(${y * speed}px)`;
+      });
+    }, { passive: true });
+  }
+
+  // =============================================
+  // MOBILE MENU
+  // =============================================
+  function setupMobileMenu() {
+    $('#mhMenuBtn')?.addEventListener('click', () => $('#mhOverlay').classList.add('open'));
+    $('#mhClose')?.addEventListener('click', () => $('#mhOverlay').classList.remove('open'));
+    $$('.mh-link').forEach(l => l.addEventListener('click', () => $('#mhOverlay').classList.remove('open')));
+  }
+
+  // =============================================
+  // MODAL EVENTS
+  // =============================================
+  function setupModalEvents() {
+    $('#modalCloseBtn').addEventListener('click', closeModal);
+    $('.modal-dismiss').addEventListener('click', closeModal);
     $('#modalOverlay').addEventListener('click', e => {
       if (e.target === $('#modalOverlay')) closeModal();
     });
@@ -293,30 +322,35 @@
   }
 
   // =============================================
-  // NAVIGATION
+  // HIDE SCROLL HINT ON SCROLL
   // =============================================
-  function setupNav() {
-    const navbar = $('#navbar');
+  function setupScrollHint() {
+    const hint = $('.intro-scroll-hint');
+    if (!hint) return;
     window.addEventListener('scroll', () => {
-      navbar.classList.toggle('scrolled', window.scrollY > 10);
-      const sections = $$('section[id]');
-      const links = $$('.nav-link');
-      let current = '';
-      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
-      links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === `#${current}`));
-    });
-    $$('a[href^="#"]').forEach(a => {
-      a.addEventListener('click', e => {
-        const t = document.querySelector(a.getAttribute('href'));
-        if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
-      });
-    });
+      if (window.scrollY > 100) {
+        hint.style.opacity = '0';
+        hint.style.transition = 'opacity 0.5s ease';
+      } else {
+        hint.style.opacity = '1';
+      }
+    }, { passive: true });
   }
 
-  function setupMobileMenu() {
-    $('#mobileMenuBtn').addEventListener('click', () => $('#mobileNavOverlay').classList.add('open'));
-    $('#mobileNavClose').addEventListener('click', () => $('#mobileNavOverlay').classList.remove('open'));
-    $$('.mobile-nav-link').forEach(l => l.addEventListener('click', () => $('#mobileNavOverlay').classList.remove('open')));
+  // =============================================
+  // SIDEBAR NAV CLICK — SMOOTH SCROLL
+  // =============================================
+  function setupSidebarNav() {
+    $$('.sb-nav-link').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const sectionId = link.dataset.section;
+        const target = document.getElementById(sectionId);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
   }
 
   // =============================================
@@ -325,19 +359,29 @@
   async function init() {
     const d = await loadData();
     if (!d) {
-      document.body.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;gap:16px;font-family:sans-serif;"><span style="font-size:48px;">⚠️</span><p>数据加载失败</p></div>`;
+      document.body.innerHTML = `
+        <div style="display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;gap:16px;font-family:system-ui;">
+          <span style="font-size:48px;">⚠️</span>
+          <p style="font-size:18px;color:#0A0A0A;">Data failed to load</p>
+          <p style="font-size:14px;color:#A3A3A3;">Check <code>data/portfolio.json</code></p>
+        </div>`;
       return;
     }
-    renderHero();
-    renderHighlights();
+
+    renderSidebar();
     renderTimeline();
-    renderWorks();
-    renderSchoolProjects();
-    renderResearch();
-    renderPersonality();
-    setupModal();
-    setupNav();
+    renderCardGrid('#worksGridV2', portfolio.works, 'works', '个人作品');
+    renderCardGrid('#schoolGridV2', portfolio.schoolProjects, 'school', '学校调研项目');
+    renderInterests();
+    renderPersonalityV2();
+
+    setupScrollReveal();
+    setupScrollSpy();
+    setupParallax();
     setupMobileMenu();
+    setupModalEvents();
+    setupScrollHint();
+    setupSidebarNav();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

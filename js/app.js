@@ -29,10 +29,7 @@
   // =============================================
   function renderSidebar() {
     const b = portfolio.basics;
-    const p = portfolio.personal;
-    if (b.avatar) {
-      $('#sbAvatar').innerHTML = `<img src="${esc(b.avatar)}" alt="${esc(b.name)}" style="width:100%;height:100%;border-radius:24px;object-fit:cover">`;
-    }
+    $('#sbInitial').textContent = (b.nameEn || b.name).charAt(0).toUpperCase();
     $('#sbName').textContent = b.name;
     $('#sbTitle').textContent = b.label;
     $('#sbBio').textContent = b.summary;

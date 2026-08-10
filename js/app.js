@@ -50,9 +50,12 @@
   // =============================================
   function renderSidebar() {
     const b = portfolio.basics;
-    $('#sbInitial').textContent = (b.nameEn || b.name).charAt(0).toUpperCase();
     $('#sbName').textContent = b.name;
-    $('#sbTitle').textContent = b.label;
+    $('#sbTitle').innerHTML = [
+      '<span>中共党员</span>',
+      '<span>26 岁</span>',
+      '<span>大连理工大学 硕士</span>',
+    ].join('<span class="sb-title-sep">·</span>');
     $('#sbBio').textContent = b.summary;
     $('#sbContact').innerHTML = [
       b.email ? `<a href="mailto:${esc(b.email)}">📧 ${esc(b.email)}</a>` : '',
@@ -148,7 +151,7 @@
             <p class="sk-sub">${esc(s.subtitle || '')}</p>
           </div>
         </div>
-        <p class="sk-desc">${esc(s.description)}</p>
+        <ul class="sk-points">${(s.points || []).map(p => `<li>${esc(p)}</li>`).join('')}</ul>
         <div class="sk-tags">${(s.highlights || []).map(h => `<span class="sk-tag">${esc(h)}</span>`).join('')}</div>
       </div>
     `).join('');

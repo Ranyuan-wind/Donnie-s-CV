@@ -23,126 +23,6 @@ cv/
 ├── assets/                 # 图片等静态资源
 └── README.md
 ```
-
-> **核心文件只有一个**：`data/portfolio.json`。改它就能改整个网站内容。
-
----
-
-## 🚀 一、绑定个人域名
-
-### 1. 购买域名
-
-推荐渠道：
-
-| 平台 | 特点 |
-|------|------|
-| [阿里云万网](https://wanwang.aliyun.com/) | 国内首选，备案方便 |
-| [腾讯云 DNSPod](https://dnspod.cloud.tencent.com/) | 国内次选 |
-| [Namecheap](https://www.namecheap.com/) | 海外首选，无需备案 |
-| [Porkbun](https://porkbun.com/) | 海外性价比高 |
-
-建议买 `.com` 或 `.me` 或 `.cn`，例如 `hedongning.me`、`donniehe.cn`。
-
-> ⚠️ `.cn` 域名需要 ICP 备案才能在国内正常访问。如果不想备案，买 `.com`。
-
-### 2. 配置 DNS
-
-在域名服务商的后台，进入 DNS 解析管理，添加以下记录：
-
-**方式一：Apex 域名（如 `hedongning.me`）**
-
-| 类型 | 主机记录 | 记录值 |
-|------|----------|--------|
-| A | @ | `185.199.108.153` |
-| A | @ | `185.199.109.153` |
-| A | @ | `185.199.110.153` |
-| A | @ | `185.199.111.153` |
-| CNAME | www | `ranyuan-wind.github.io.` |
-
-**方式二：仅 www 子域名（如 `www.hedongning.me`）**
-
-| 类型 | 主机记录 | 记录值 |
-|------|----------|--------|
-| CNAME | www | `ranyuan-wind.github.io.` |
-
-### 3. GitHub 端设置
-
-1. 打开仓库 → **Settings** → **Pages**
-2. **Custom domain** 填入你的域名（如 `hedongning.me`）
-3. 点击 **Save**
-4. 勾选 **Enforce HTTPS**（等几分钟，证书自动签发）
-
-> DNS 生效需要 1-10 分钟。保存后 GitHub 会自动验证域名归属。
-
-### 4. 更新配置文件
-
-域名绑定后，改两处：
-
-**`admin/config.yml`** 末尾：
-```yaml
-site_url: "https://你的域名"
-display_url: "https://你的域名"
-```
-
-**`index.html`** `<head>` 中的 canonical URL（如有的话）。
-
----
-
-## ⚙️ 二、后台编辑面板（Decap CMS）
-
-Decap CMS 可以让你在网页上像填表一样编辑简历，自动 commit 到 GitHub，网站自动更新。
-
-### 方案 A：直接在 GitHub 上编辑（零配置，现在就可用 ✅）
-
-最简单的"后台"就是 GitHub 自带的文件编辑器：
-
-1. 打开 https://github.com/Ranyuan-wind/Donnie-s-CV/blob/main/data/portfolio.json
-2. 点右上角 ✏️ 编辑按钮
-3. 直接改 JSON 内容
-4. 改完点 **Commit changes**
-5. 等 1-2 分钟，网站自动更新
-
-**适合**：偶尔改个联系方式、加一条经历这种场景。
-
-### 方案 B：Netlify + Git Gateway（推荐，完整体验 🔥）
-
-Netlify 提供免费的 Git Gateway，让 Decap CMS 一键登录编辑，体验最好。
-
-**步骤：**
-
-1. **注册 Netlify** → https://app.netlify.com/signup （用 GitHub 账号登录）
-
-2. **导入站点** → 点击 "Add new site" → "Import an existing project" → 选择 GitHub → 选择 `Ranyuan-wind/Donnie-s-CV`
-
-3. **开启 Identity** → 站点设置 → **Identity** → **Enable Identity**
-
-4. **开启 Git Gateway** → Identity → **Services** → **Git Gateway** → **Enable Git Gateway**
-
-5. **修改 `admin/config.yml`**，把 backend 改成：
-   ```yaml
-   backend:
-     name: git-gateway
-     branch: main
-   ```
-
-6. **提交并 push** 这个改动
-
-7. **访问后台** → `https://你的域名/admin/` → 点 "Login with Netlify Identity" → 注册/登录 → 进入编辑面板
-
-> Netlify 会自动部署你的站点。如果你同时用了 GitHub Pages，去 Netlify 设置里关掉自动部署，只用它做认证。
-
-### 方案 C：仅在本地编辑（无需任何后台）
-
-```bash
-# 编辑 JSON 数据
-vim data/portfolio.json
-
-# 提交推送
-git add data/portfolio.json
-git commit -m "更新简历"
-git push origin main
-```
-
 ---
 
 ## 📝 三、日常编辑指南
@@ -151,10 +31,7 @@ git push origin main
 
 | 方式 | 地址 | 适合 |
 |------|------|------|
-| GitHub 直接编辑 | 仓库 → `data/portfolio.json` → Edit | 快速小改 |
-| Netlify CMS 后台 | `你的域名/admin/` | 可视化编辑 |
-| 本地编辑 | `vim data/portfolio.json` | 开发者 |
-
+| GitHub 直接编辑 | 仓库 → `data/portfolio.json` → Edit | 快速小改 
 ### 可编辑的模块
 
 | 模块 | JSON 字段 | 说明 |

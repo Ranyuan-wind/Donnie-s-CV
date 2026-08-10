@@ -12,6 +12,27 @@
   const ICONS = { school: '🎓', ai: '🤖', data: '📊', global: '🌍' };
   const isImg = s => s && /\.(png|svg|jpe?g|webp|gif)/i.test(s);
 
+  // highlight key metrics in text
+  function hlMetrics(text) {
+    if (!text) return text;
+    let html = esc(text);
+    // percentages (standalone or in ratios like 80%/80%)
+    html = html.replace(/([\d]+(?:\.[\d]+)?%(\/[\d]+(?:\.[\d]+)?%)*)/g,
+      '<span class="hl-num up">$1</span>');
+    // numbers before Chinese units
+    html = html.replace(/(\d+(?:\.\d+)?)\s*(万条|轮|份|人|次|个)/g,
+      '<span class="hl-num">$1</span>$2');
+    // CTR
+    html = html.replace(/(CTR\s*[\d.]+%?)/gi,
+      '<span class="hl-num ctr">$1</span>');
+    // decrease/improvement context
+    html = html.replace(/下降\s*(<span class="hl-num[^>]*>[\d.%\/]+<\/span>)/g,
+      '<span class="hl-down">↓$1</span>');
+    html = html.replace(/提升\s*(<span class="hl-num[^>]*>[\d.%\/]+<\/span>)/g,
+      '<span class="hl-up">↑$1</span>');
+    return html;
+  }
+
   // =============================================
   // DATA LOADING
   // =============================================
@@ -64,7 +85,7 @@
             </div>
             <div class="tl-date">${esc(item.date)}</div>
           </div>
-          <div class="tl-abstract">${esc(item.abstract)}</div>
+          <div class="tl-abstract">${hlMetrics(item.abstract)}</div>
           <div class="tl-keywords">${item.keywords.map(k => `<span class="tl-kw">${esc(k)}</span>`).join('')}</div>
         </div>
       </div>
@@ -245,7 +266,7 @@
     }
 
     $('#modalBodyEl').innerHTML = extraHTML + (highlights.length
-      ? highlights.map(h => `<div class="modal-hl"><h4>▸ ${esc(h.title)}</h4><p>${esc(h.content)}</p></div>`).join('')
+      ? highlights.map(h => `<div class="modal-hl"><h4>▸ ${esc(h.title)}</h4><p>${hlMetrics(h.content)}</p></div>`).join('')
       : '<p style="color:var(--m)">暂无详细信息</p>');
 
     $('#modalOverlay').classList.add('open');

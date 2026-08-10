@@ -196,7 +196,10 @@
             "content": "全程独立负责智能体落地，挖掘用户核心诉求，定义场景功能；设计 Agent+Workflow 的功能架构，定义“自然语言解析-需求改写-图生图”的工作流程；开展多模型选型与效果对比；针对产品测评结果完成提示词优化、流程优化等迭代动作。"
           }
         ]
-      }
+      },
+      "link": "https://www.coze.cn/store/agent/7608066000042803235?bot_id=true&bid=6ku9sugb41016",
+      "linkLabel": "在 Coze 体验 Agent",
+      "workflowImage": "assets/workflow.png"
     }
   ],
   "schoolProjects": [

@@ -92,6 +92,7 @@
           <div class="c-card-role">${esc(item.role)}</div>
           <p class="c-card-desc">${esc(item.abstract)}</p>
           <div class="c-card-kws">${item.keywords.map(k => `<span class="c-card-kw">${esc(k)}</span>`).join('')}</div>
+          ${item.link ? `<a href="${esc(item.link)}" target="_blank" rel="noopener" class="c-card-link" onclick="event.stopPropagation()">🔗 ${esc(item.linkLabel || 'View Project')} →</a>` : ''}
         </div>
         <div class="c-card-footer">
           <span class="c-card-date">${esc(item.date)}</span>
@@ -214,9 +215,26 @@
     `;
 
     const highlights = item.details?.highlights || [];
-    $('#modalBodyEl').innerHTML = highlights.length
+    let extraHTML = '';
+
+    // Workflow image
+    if (item.workflowImage) {
+      extraHTML += `<div class="modal-workflow">
+        <div class="modal-workflow-label">📋 工作流架构</div>
+        <img src="${esc(item.workflowImage)}" alt="Workflow" class="modal-workflow-img" onerror="this.style.display='none'">
+      </div>`;
+    }
+
+    // Coze / external link
+    if (item.link) {
+      extraHTML += `<div class="modal-cta-row">
+        <a href="${esc(item.link)}" target="_blank" rel="noopener" class="modal-link-btn">🔗 ${esc(item.linkLabel || 'View Project')} →</a>
+      </div>`;
+    }
+
+    $('#modalBodyEl').innerHTML = extraHTML + (highlights.length
       ? highlights.map(h => `<div class="modal-hl"><h4>▸ ${esc(h.title)}</h4><p>${esc(h.content)}</p></div>`).join('')
-      : '<p style="color:var(--m)">暂无详细信息</p>';
+      : '<p style="color:var(--m)">暂无详细信息</p>');
 
     $('#modalOverlay').classList.add('open');
     document.body.style.overflow = 'hidden';

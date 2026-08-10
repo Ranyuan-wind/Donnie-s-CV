@@ -17,18 +17,17 @@
       <div class="nav-links">
         <a href="#hero" class="nav-link active">Home</a>
         <a href="#highlights" class="nav-link">About</a>
-        <a href="#portfolio" class="nav-link">Portfolio</a>
+        <a href="#internships" class="nav-link">Experience</a>
+        <a href="#works" class="nav-link">Portfolio</a>
       </div>
-      <button class="lang-toggle" id="langToggle" title="Switch Language">
-        <span class="lang-active">中文</span>
-      </button>
+      <button class="lang-toggle" id="langToggle">中文</button>
       <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
     </div>
   </nav>
 
-  <!-- ====== Hero Section ====== -->
+  <!-- ====== Hero ====== -->
   <section class="hero" id="hero">
     <div class="hero-container">
       <div class="hero-content">
@@ -36,9 +35,9 @@
         <h1 class="hero-name" id="heroName">何东宁</h1>
         <h2 class="hero-title" id="heroTitle">策略产品经理</h2>
         <p class="hero-subtitle" id="heroSubtitle">大连理工大学 企业管理硕士 · AI 策略产品方向</p>
-        <p class="hero-bio" id="heroBio">专注于 AI 策略产品管理，拥有快手、滴滴、百度、网易云音乐等多段互联网大厂产品实习经历。擅长数据驱动的策略设计与 Agent 产品搭建。</p>
+        <p class="hero-bio" id="heroBio"></p>
         <div class="hero-cta">
-          <a href="#portfolio" class="btn btn-primary">View Portfolio →</a>
+          <a href="#internships" class="btn btn-primary">View Experience →</a>
           <a href="#highlights" class="btn btn-outline">About Me</a>
         </div>
       </div>
@@ -46,23 +45,14 @@
         <div class="hero-avatar-glow">
           <div class="hero-avatar" id="heroAvatar">何</div>
         </div>
-        <div class="hero-floating-card card-1">
-          <span class="float-icon">📊</span>
-          <span class="float-text">数据驱动</span>
-        </div>
-        <div class="hero-floating-card card-2">
-          <span class="float-icon">🤖</span>
-          <span class="float-text">AI 产品</span>
-        </div>
-        <div class="hero-floating-card card-3">
-          <span class="float-icon">🌍</span>
-          <span class="float-text">国际化</span>
-        </div>
+        <div class="hero-floating-card card-1"><span class="float-icon">📊</span><span class="float-text">数据驱动</span></div>
+        <div class="hero-floating-card card-2"><span class="float-icon">🤖</span><span class="float-text">AI 产品</span></div>
+        <div class="hero-floating-card card-3"><span class="float-icon">🌍</span><span class="float-text">国际化</span></div>
       </div>
     </div>
   </section>
 
-  <!-- ====== Key Highlights ====== -->
+  <!-- ====== Core Strengths ====== -->
   <section class="highlights" id="highlights">
     <div class="section-container">
       <h2 class="section-title">Core Strengths</h2>
@@ -71,29 +61,35 @@
     </div>
   </section>
 
-  <!-- ====== Portfolio Section ====== -->
-  <section class="portfolio" id="portfolio">
+  <!-- ====== Internship Timeline ====== -->
+  <section class="internships" id="internships">
+    <div class="section-container">
+      <h2 class="section-title">Internship Experience</h2>
+      <p class="section-subtitle">四段互联网大厂策略产品实习 · 悬浮卡片查看详情</p>
+      <div class="timeline" id="timeline"></div>
+    </div>
+  </section>
+
+  <!-- ====== Works / 作品集 ====== -->
+  <section class="works-section" id="works">
     <div class="section-container">
       <h2 class="section-title">Portfolio</h2>
-      <p class="section-subtitle">实习项目与个人作品</p>
+      <p class="section-subtitle">个人作品</p>
+      <div class="works-grid" id="worksGrid"></div>
+    </div>
+  </section>
 
-      <!-- Filter Tabs -->
-      <div class="filter-tabs" id="filterTabs">
-        <button class="filter-btn active" data-filter="all">All Projects</button>
-        <button class="filter-btn" data-filter="策略产品">策略产品</button>
-        <button class="filter-btn" data-filter="AI产品">AI 产品</button>
-        <button class="filter-btn" data-filter="产品调研">产品调研</button>
-        <button class="filter-btn" data-filter="数据分析">数据分析</button>
-        <button class="filter-btn" data-filter="国际化">国际化</button>
-      </div>
-
-      <!-- Project Grid -->
-      <div class="project-grid" id="projectGrid"></div>
+  <!-- ====== School Projects / 学校调研项目 ====== -->
+  <section class="school-section" id="school">
+    <div class="section-container">
+      <h2 class="section-title">School Research Projects</h2>
+      <p class="section-subtitle">大学期间的调研与竞赛项目</p>
+      <div class="project-grid school-grid" id="schoolGrid"></div>
     </div>
   </section>
 
   <!-- ====== Research Interests ====== -->
-  <section class="research">
+  <section class="research" id="research">
     <div class="section-container">
       <h2 class="section-title">Research Interests</h2>
       <p class="section-subtitle">关注方向与技术领域</p>
@@ -101,7 +97,7 @@
     </div>
   </section>
 
-  <!-- ====== About Me / Personality ====== -->
+  <!-- ====== The Person Behind the PM ====== -->
   <section class="personality" id="personality">
     <div class="section-container">
       <h2 class="section-title">The Person Behind the PM</h2>
@@ -139,7 +135,9 @@
     <button class="mobile-nav-close" id="mobileNavClose">&times;</button>
     <a href="#hero" class="mobile-nav-link">Home</a>
     <a href="#highlights" class="mobile-nav-link">About</a>
-    <a href="#portfolio" class="mobile-nav-link">Portfolio</a>
+    <a href="#internships" class="mobile-nav-link">Experience</a>
+    <a href="#works" class="mobile-nav-link">Portfolio</a>
+    <a href="#personality" class="mobile-nav-link">About Me</a>
   </div>
 
   <script src="js/app.js"></script>

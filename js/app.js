@@ -1,5 +1,5 @@
 /* ============================================
-   Modern Portfolio — App Logic
+   Modern Portfolio v3 — Timeline + Sections
    ============================================ */
 
 (function () {
@@ -8,243 +8,235 @@
   const $ = (s, c) => (c || document).querySelector(s);
   const $$ = (s, c) => Array.from((c || document).querySelectorAll(s));
 
-  function escapeHTML(s) {
+  function esc(s) {
     const d = document.createElement('div');
     d.textContent = s;
     return d.innerHTML;
   }
 
-  // =============================================
-  // DATA LOADING
-  // =============================================
-  let portfolioData = null;
+  let data = null;
 
   async function loadData() {
     try {
-      const resp = await fetch('data/portfolio.json');
-      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-      portfolioData = await resp.json();
-      return portfolioData;
-    } catch (err) {
-      console.error('Failed to load portfolio data:', err);
-      return null;
-    }
+      const r = await fetch('data/portfolio.json');
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      data = await r.json();
+      return data;
+    } catch (e) { console.error('Load failed:', e); return null; }
   }
 
   // =============================================
-  // RENDER: HERO
+  // HERO
   // =============================================
-  function renderHero(d) {
-    const b = d.basics;
+  function renderHero() {
+    const b = data.basics;
     $('#heroName').textContent = b.name;
     $('#heroTitle').textContent = b.label;
-    $('#heroSubtitle').textContent = `大连理工大学 企业管理硕士 · AI 策略产品方向`;
+    $('#heroSubtitle').textContent = '大连理工大学 企业管理硕士 · AI 策略产品方向';
     $('#heroBio').textContent = b.summary;
     if (b.avatar) {
-      $('#heroAvatar').innerHTML = `<img src="${escapeHTML(b.avatar)}" alt="${escapeHTML(b.name)}">`;
+      $('#heroAvatar').innerHTML = `<img src="${esc(b.avatar)}" alt="${esc(b.name)}">`;
     }
   }
 
   // =============================================
-  // RENDER: HIGHLIGHTS
+  // CORE STRENGTHS
   // =============================================
-  const ICON_MAP = {
-    school: '🎓',
-    ai: '🤖',
-    data: '📊',
-    global: '🌍',
-  };
+  const ICONS = { school: '🎓', ai: '🤖', data: '📊', global: '🌍' };
 
-  function renderHighlights(d) {
-    if (!d.highlights) return;
-    const grid = $('#highlightsGrid');
-    grid.innerHTML = d.highlights.map(h => `
+  function renderHighlights() {
+    if (!data.highlights) return;
+    $('#highlightsGrid').innerHTML = data.highlights.map(h => `
       <div class="highlight-card">
-        <div class="highlight-icon">${ICON_MAP[h.icon] || '✨'}</div>
-        <h3>${escapeHTML(h.title)}</h3>
-        <div class="hl-subtitle">${escapeHTML(h.subtitle)}</div>
-        <p>${escapeHTML(h.description)}</p>
+        <div class="highlight-icon">${ICONS[h.icon] || '✨'}</div>
+        <h3>${esc(h.title)}</h3>
+        <div class="hl-subtitle">${esc(h.subtitle)}</div>
+        <p>${esc(h.description)}</p>
       </div>
     `).join('');
   }
 
   // =============================================
-  // RENDER: PORTFOLIO GRID
+  // INTERNSHIP TIMELINE
   // =============================================
-  function renderPortfolio(d) {
-    if (!d.portfolio) return;
-    const grid = $('#projectGrid');
-    grid.innerHTML = d.portfolio.map((item, i) => `
-      <article class="project-card" data-id="${item.id}" data-categories='${JSON.stringify(item.category)}'>
-        <div class="card-banner" style="background:${item.gradient}">
-          <div class="card-logo">${escapeHTML(item.logo)}</div>
-        </div>
-        <div class="card-body">
-          <div class="card-company">${escapeHTML(item.company)}</div>
-          <div class="card-role">${escapeHTML(item.role)} · ${escapeHTML(item.department)}</div>
-          <p class="card-abstract">${escapeHTML(item.abstract)}</p>
-          <div class="card-keywords">
-            ${item.keywords.map(k => `<span class="card-keyword">${escapeHTML(k)}</span>`).join('')}
+  function renderTimeline() {
+    if (!data.internships) return;
+    $('#timeline').innerHTML = data.internships.map(item => `
+      <div class="timeline-item" data-id="${item.id}" data-source="internships">
+        <div class="timeline-dot"></div>
+        <div class="timeline-card">
+          <div class="timeline-card-header">
+            <div class="timeline-card-left">
+              <div class="timeline-logo" style="background:${item.gradient}">${esc(item.logo)}</div>
+              <div>
+                <div class="timeline-company">${esc(item.company)}</div>
+                <span class="timeline-role">${esc(item.role)} · ${esc(item.department)}</span>
+              </div>
+            </div>
+            <div class="timeline-date">${esc(item.date)}</div>
           </div>
-          <button class="btn-detail" data-id="${item.id}" aria-label="View details of ${escapeHTML(item.company)}">
-            View Details →
-          </button>
+          <div class="timeline-abstract">${esc(item.abstract)}</div>
+          <div class="timeline-keywords">
+            ${item.keywords.map(k => `<span class="timeline-keyword">${esc(k)}</span>`).join('')}
+          </div>
+          <div class="timeline-hint">Click for details →</div>
         </div>
-        <div class="card-footer">
-          <span class="card-date">${escapeHTML(item.date)}</span>
-          <span class="card-status">${escapeHTML(item.status)}</span>
-        </div>
-      </article>
+      </div>
     `).join('');
 
-    // Bind detail buttons
-    $$('.btn-detail', grid).forEach(btn => {
-      btn.addEventListener('click', () => openModal(btn.dataset.id));
-    });
-  }
-
-  // =============================================
-  // FILTER LOGIC
-  // =============================================
-  function setupFilters() {
-    const btns = $$('.filter-btn');
-    const cards = $$('.project-card');
-
-    btns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        // Update active state
-        btns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-
-        const filter = btn.dataset.filter;
-
-        cards.forEach(card => {
-          if (filter === 'all') {
-            card.classList.remove('hidden');
-          } else {
-            const cats = JSON.parse(card.dataset.categories);
-            card.classList.toggle('hidden', !cats.includes(filter));
-          }
-        });
+    // Click to open modal
+    $$('.timeline-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const itemEl = card.closest('.timeline-item');
+        openModal(itemEl.dataset.source, itemEl.dataset.id);
       });
     });
   }
 
   // =============================================
-  // RENDER: RESEARCH INTERESTS
+  // WORKS / 作品集
   // =============================================
-  const RESEARCH_ICONS = {
-    ai: '🤖',
-    data: '📊',
-    global: '🌍',
-  };
+  function renderWorks() {
+    if (!data.works || !data.works.length) return;
+    $('#worksGrid').innerHTML = data.works.map(item => `
+      <article class="work-card" data-id="${item.id}" data-source="works">
+        <div class="work-banner" style="background:${item.gradient}">
+          <div class="work-logo">${esc(item.logo)}</div>
+        </div>
+        <div class="work-body">
+          <div class="work-company">${esc(item.company)}</div>
+          <div class="work-role">${esc(item.role)}</div>
+          <p class="work-abstract">${esc(item.abstract)}</p>
+          <div class="work-keywords">
+            ${item.keywords.map(k => `<span class="work-keyword">${esc(k)}</span>`).join('')}
+          </div>
+        </div>
+        <div class="work-footer">
+          <span class="work-date">${esc(item.date)}</span>
+          <span class="work-badge">个人作品</span>
+        </div>
+      </article>
+    `).join('');
 
-  function renderResearch(d) {
-    if (!d.researchInterests) return;
-    const grid = $('#researchGrid');
-    grid.innerHTML = d.researchInterests.map(r => `
+    $$('.work-card').forEach(card => {
+      card.addEventListener('click', () => openModal(card.dataset.source, card.dataset.id));
+    });
+  }
+
+  // =============================================
+  // SCHOOL PROJECTS
+  // =============================================
+  function renderSchoolProjects() {
+    if (!data.schoolProjects || !data.schoolProjects.length) return;
+    $('#schoolGrid').innerHTML = data.schoolProjects.map(item => `
+      <article class="school-card" data-id="${item.id}" data-source="schoolProjects">
+        <div class="school-banner" style="background:${item.gradient}">
+          <div class="school-logo">${esc(item.logo)}</div>
+        </div>
+        <div class="school-body">
+          <div class="school-name">${esc(item.company)}</div>
+          <div class="school-role">${esc(item.role)}</div>
+          <p class="school-abstract">${esc(item.abstract)}</p>
+          <div class="school-keywords">
+            ${item.keywords.map(k => `<span class="school-keyword">${esc(k)}</span>`).join('')}
+          </div>
+        </div>
+        <div class="school-footer">
+          <span class="school-date">${esc(item.date)}</span>
+          <span class="school-badge">学校调研项目</span>
+        </div>
+      </article>
+    `).join('');
+
+    $$('.school-card').forEach(card => {
+      card.addEventListener('click', () => openModal(card.dataset.source, card.dataset.id));
+    });
+  }
+
+  // =============================================
+  // RESEARCH INTERESTS
+  // =============================================
+  function renderResearch() {
+    if (!data.researchInterests) return;
+    const RI = { ai: '🤖', data: '📊', global: '🌍' };
+    $('#researchGrid').innerHTML = data.researchInterests.map(r => `
       <div class="research-card">
-        <div class="research-icon">${RESEARCH_ICONS[r.icon] || '💡'}</div>
-        <h3>${escapeHTML(r.title)}</h3>
-        <p>${escapeHTML(r.description)}</p>
+        <div class="research-icon">${RI[r.icon] || '💡'}</div>
+        <h3>${esc(r.title)}</h3>
+        <p>${esc(r.description)}</p>
       </div>
     `).join('');
   }
 
   // =============================================
-  // RENDER: PERSONALITY SECTION
+  // PERSONALITY
   // =============================================
-  function renderPersonality(d) {
-    if (!d.personal) return;
-    const p = d.personal;
+  function renderPersonality() {
+    const p = data.personal;
+    if (!p) return;
     const layout = $('#personalityLayout');
 
-    // Build MBTI trait tags
     const mbtiTraits = (p.mbti && p.mbti.traits) ? p.mbti.traits.map(t =>
-      `<span class="connection-trait"><span class="ct-label">${escapeHTML(t.trait)}</span>${escapeHTML(t.desc)}</span>`
+      `<span class="connection-trait"><span class="ct-label">${esc(t.trait)}</span>${esc(t.desc)}</span>`
     ).join('') : '';
 
-    // Build zodiac trait tags
-    const zodiacTraits = (p.zodiac && p.zodiac.traits) ? p.zodiac.traits.map(t =>
-      `<span class="profile-trait-tag">${escapeHTML(t)}</span>`
+    const zodiacTags = (p.zodiac && p.zodiac.traits) ? p.zodiac.traits.map(t =>
+      `<span class="profile-trait-tag">${esc(t)}</span>`
     ).join('') : '';
 
     const avatarHTML = p.avatar
-      ? `<img class="profile-avatar-img" src="${escapeHTML(p.avatar)}" alt="Avatar">`
-      : `<div class="profile-avatar-fallback">何</div>`;
+      ? `<img class="profile-avatar-img" src="${esc(p.avatar)}" alt="Avatar">`
+      : `<div class="profile-avatar-fallback">${data.basics.name.charAt(0)}</div>`;
 
     layout.innerHTML = `
-      <!-- Left: Profile Card -->
       <div class="profile-card">
         <div class="profile-card-top">
           <div class="profile-avatar-wrapper">${avatarHTML}</div>
-          <div class="profile-name">${escapeHTML(d.basics.name)}</div>
-          <div class="profile-role">${escapeHTML(d.basics.label)}</div>
+          <div class="profile-name">${esc(data.basics.name)}</div>
+          <div class="profile-role">${esc(data.basics.label)}</div>
           <div class="profile-badges">
-            <span class="profile-badge badge-mbti">💜 ENFJ · ${escapeHTML(p.mbti.nickname)}</span>
-            <span class="profile-badge badge-zodiac">♑ ${escapeHTML(p.zodiac.sign)}</span>
+            <span class="profile-badge badge-mbti">💜 ENFJ · ${esc(p.mbti.nickname)}</span>
+            <span class="profile-badge badge-zodiac">♑ ${esc(p.zodiac.sign)}</span>
           </div>
         </div>
         <div class="profile-stats">
-          <div class="profile-stat">
-            <div class="stat-num">4</div>
-            <div class="stat-label">实习经历</div>
-          </div>
-          <div class="profile-stat">
-            <div class="stat-num">3</div>
-            <div class="stat-label">项目经历</div>
-          </div>
-          <div class="profile-stat">
-            <div class="stat-num">985</div>
-            <div class="stat-label">硕士在读</div>
-          </div>
+          <div class="profile-stat"><div class="stat-num">4</div><div class="stat-label">实习经历</div></div>
+          <div class="profile-stat"><div class="stat-num">3</div><div class="stat-label">项目经历</div></div>
+          <div class="profile-stat"><div class="stat-num">985</div><div class="stat-label">硕士在读</div></div>
         </div>
         <div class="profile-body">
-          <div class="profile-body-label">✨ 摩羯座特质</div>
-          <div class="profile-trait-tags">${zodiacTraits}</div>
+          <div class="profile-body-label">✨ ${esc(p.zodiac.sign)}特质</div>
+          <div class="profile-trait-tags">${zodiacTags}</div>
         </div>
       </div>
-
-      <!-- Right: Traits + Connection -->
       <div class="personality-right">
-        <!-- Personality Cards -->
         <div class="personality-cards">
-          ${(p.personalityCards || []).map(card => `
+          ${(p.personalityCards || []).map(c => `
             <div class="person-card">
-              <span class="pc-emoji">${escapeHTML(card.emoji)}</span>
-              <div class="pc-title">${escapeHTML(card.title)}</div>
-              <p class="pc-content">${escapeHTML(card.content)}</p>
+              <span class="pc-emoji">${esc(c.emoji)}</span>
+              <div class="pc-title">${esc(c.title)}</div>
+              <p class="pc-content">${esc(c.content)}</p>
             </div>
           `).join('')}
         </div>
-
-        <!-- MBTI + Zodiac Connection -->
         <div class="connection-cards">
           <div class="connection-card">
             <div class="connection-header">
               <div class="connection-icon mbti">💜</div>
-              <div>
-                <div class="connection-title">ENFJ · ${escapeHTML(p.mbti.nickname)}</div>
-                <div class="connection-subtitle">Myers-Briggs Type Indicator</div>
-              </div>
+              <div><div class="connection-title">ENFJ · ${esc(p.mbti.nickname)}</div><div class="connection-subtitle">Myers-Briggs Type Indicator</div></div>
             </div>
             <div class="connection-traits">${mbtiTraits}</div>
-            <p class="connection-text">${escapeHTML(p.mbti.pmConnection)}</p>
+            <p class="connection-text">${esc(p.mbti.pmConnection)}</p>
           </div>
           <div class="connection-card">
             <div class="connection-header">
               <div class="connection-icon zodiac">♑</div>
-              <div>
-                <div class="connection-title">${escapeHTML(p.zodiac.sign)} · ${escapeHTML(p.zodiac.element)}</div>
-                <div class="connection-subtitle">Zodiac Sign</div>
-              </div>
+              <div><div class="connection-title">${esc(p.zodiac.sign)} · ${esc(p.zodiac.element)}</div><div class="connection-subtitle">Zodiac Sign</div></div>
             </div>
             <div class="connection-traits">
-              ${(p.zodiac.traits || []).map(t =>
-                `<span class="connection-trait"><span class="ct-label">${escapeHTML(t)}</span></span>`
-              ).join('')}
+              ${(p.zodiac.traits || []).map(t => `<span class="connection-trait"><span class="ct-label">${esc(t)}</span></span>`).join('')}
             </div>
-            <p class="connection-text">${escapeHTML(p.zodiac.pmConnection)}</p>
+            <p class="connection-text">${esc(p.zodiac.pmConnection)}</p>
           </div>
         </div>
       </div>
@@ -254,32 +246,33 @@
   // =============================================
   // MODAL
   // =============================================
-  function openModal(id) {
-    if (!portfolioData) return;
-    const item = portfolioData.portfolio.find(p => p.id === id);
+  function openModal(source, id) {
+    const collection = data[source];
+    if (!collection) return;
+    const item = collection.find(x => x.id === id);
     if (!item) return;
 
-    // Header
+    const dept = item.department || '';
+    const subline = dept ? `${esc(item.role)} · ${esc(dept)}` : esc(item.role);
+
     $('#modalHeader').innerHTML = `
-      <div class="mh-company">${escapeHTML(item.company)}</div>
-      <div class="mh-role">${escapeHTML(item.role)} · ${escapeHTML(item.department)}</div>
-      <div class="mh-date">${escapeHTML(item.date)}</div>
+      <div class="mh-company">${esc(item.company)}</div>
+      <div class="mh-role">${subline}</div>
+      <div class="mh-date">${esc(item.date)}</div>
     `;
 
-    // Body
     const highlights = item.details && item.details.highlights ? item.details.highlights : [];
-    $('#modalBody').innerHTML = highlights.map(h => `
-      <div class="modal-highlight">
-        <h4>▸ ${escapeHTML(h.title)}</h4>
-        <p>${escapeHTML(h.content)}</p>
-      </div>
-    `).join('') || '<p style="color:var(--text-muted)">暂无详细信息</p>';
+    $('#modalBody').innerHTML = highlights.length
+      ? highlights.map(h => `
+          <div class="modal-highlight">
+            <h4>▸ ${esc(h.title)}</h4>
+            <p>${esc(h.content)}</p>
+          </div>
+        `).join('')
+      : '<p style="color:var(--text-muted)">暂无详细信息</p>';
 
-    // Show
     $('#modalOverlay').classList.add('open');
     document.body.style.overflow = 'hidden';
-
-    // Focus trap
     $('#modalClose').focus();
   }
 
@@ -291,13 +284,11 @@
   function setupModal() {
     $('#modalClose').addEventListener('click', closeModal);
     $('.modal-close-btn').addEventListener('click', closeModal);
-    $('#modalOverlay').addEventListener('click', (e) => {
+    $('#modalOverlay').addEventListener('click', e => {
       if (e.target === $('#modalOverlay')) closeModal();
     });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && $('#modalOverlay').classList.contains('open')) {
-        closeModal();
-      }
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && $('#modalOverlay').classList.contains('open')) closeModal();
     });
   }
 
@@ -306,80 +297,49 @@
   // =============================================
   function setupNav() {
     const navbar = $('#navbar');
-
-    // Scroll shadow
     window.addEventListener('scroll', () => {
       navbar.classList.toggle('scrolled', window.scrollY > 10);
-
-      // Update active nav link
       const sections = $$('section[id]');
       const links = $$('.nav-link');
       let current = '';
-      sections.forEach(s => {
-        const top = s.offsetTop - 100;
-        if (window.scrollY >= top) current = s.id;
-      });
-      links.forEach(l => {
-        l.classList.toggle('active', l.getAttribute('href') === `#${current}`);
-      });
+      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+      links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === `#${current}`));
     });
-
-    // Smooth scroll for anchor links
     $$('a[href^="#"]').forEach(a => {
-      a.addEventListener('click', (e) => {
-        const target = document.querySelector(a.getAttribute('href'));
-        if (target) {
-          e.preventDefault();
-          target.scrollIntoView({ behavior: 'smooth' });
-        }
+      a.addEventListener('click', e => {
+        const t = document.querySelector(a.getAttribute('href'));
+        if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
       });
     });
   }
 
-  // =============================================
-  // MOBILE MENU
-  // =============================================
   function setupMobileMenu() {
-    const btn = $('#mobileMenuBtn');
-    const overlay = $('#mobileNavOverlay');
-    const close = $('#mobileNavClose');
-    const links = $$('.mobile-nav-link');
-
-    btn.addEventListener('click', () => overlay.classList.add('open'));
-    close.addEventListener('click', () => overlay.classList.remove('open'));
-    links.forEach(l => l.addEventListener('click', () => overlay.classList.remove('open')));
+    $('#mobileMenuBtn').addEventListener('click', () => $('#mobileNavOverlay').classList.add('open'));
+    $('#mobileNavClose').addEventListener('click', () => $('#mobileNavOverlay').classList.remove('open'));
+    $$('.mobile-nav-link').forEach(l => l.addEventListener('click', () => $('#mobileNavOverlay').classList.remove('open')));
   }
 
   // =============================================
   // INIT
   // =============================================
   async function init() {
-    const data = await loadData();
-    if (!data) {
-      document.body.innerHTML = `
-        <div style="display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;gap:16px;font-family:var(--font-sans);">
-          <span style="font-size:48px;">⚠️</span>
-          <p style="font-size:18px;color:var(--text-heading);">数据加载失败</p>
-          <p style="font-size:14px;color:var(--text-muted);">请确认 <code>data/portfolio.json</code> 文件存在</p>
-        </div>`;
+    const d = await loadData();
+    if (!d) {
+      document.body.innerHTML = `<div style="display:flex;align-items:center;justify-content:center;height:100vh;flex-direction:column;gap:16px;font-family:sans-serif;"><span style="font-size:48px;">⚠️</span><p>数据加载失败</p></div>`;
       return;
     }
-
-    renderHero(data);
-    renderHighlights(data);
-    renderPortfolio(data);
-    renderResearch(data);
-    renderPersonality(data);
-
-    setupFilters();
+    renderHero();
+    renderHighlights();
+    renderTimeline();
+    renderWorks();
+    renderSchoolProjects();
+    renderResearch();
+    renderPersonality();
     setupModal();
     setupNav();
     setupMobileMenu();
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
 })();

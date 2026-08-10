@@ -8,7 +8,6 @@
     "phone": "+86 138-0000-0000",
     "location": "大连 / 北京",
     "summary": "大连理工大学企业管理硕士，专注于 AI 策略产品方向。拥有快手、滴滴、百度、网易云音乐等多段互联网大厂产品实习经历，擅长数据驱动的策略设计与 AI Agent 产品搭建。",
-    "summaryEn": "Master's candidate at Dalian University of Technology, focused on AI strategy product management. Multiple internship experiences at top internet companies including Kuaishou, DiDi, Baidu, and NetEase Cloud Music.",
     "avatar": ""
   },
   "highlights": [
@@ -31,23 +30,16 @@
       "description": "SQL 多维分析、DID 实验设计、A/B Test 全流程"
     }
   ],
-  "portfolio": [
+  "internships": [
     {
       "id": "kuaishou",
-      "type": "internship",
-      "category": [
-        "策略产品",
-        "AI产品"
-      ],
       "company": "快手",
-      "companyEn": "Kuaishou",
       "department": "评论治理组",
       "role": "策略产品实习生",
       "date": "2025.11 - 2026.07",
-      "status": "实习经历",
       "gradient": "linear-gradient(135deg, #FF6B35 0%, #FF441F 100%)",
       "logo": "快",
-      "abstract": "主导文本轻量化大模型建设与 Agent 研判链路搭建，推动模型准召提升至 80%/80%，解决线上约 30% 文本漏召问题。",
+      "abstract": "主导文本轻量化大模型建设与 Agent 研判链路搭建，推动模型准召提升至 80%/80%，解决约 30% 文本漏召。",
       "keywords": [
         "内容治理",
         "LLM应用",
@@ -79,20 +71,13 @@
     },
     {
       "id": "didi",
-      "type": "internship",
-      "category": [
-        "策略产品",
-        "国际化"
-      ],
       "company": "滴滴",
-      "companyEn": "DiDi",
       "department": "IBG - Intl Product",
       "role": "治理产品实习生",
       "date": "2025.06 - 2025.09",
-      "status": "实习经历",
       "gradient": "linear-gradient(135deg, #F97316 0%, #EA580C 100%)",
       "logo": "滴",
-      "abstract": "面向埃及出行业务，推动成熟治理体系的本地化适配，设计司乘分层策略与城市间 DID 实验，单位成本率下降 60%。",
+      "abstract": "面向埃及出行业务，推动治理体系本地化适配，设计司乘分层策略与 DID 实验，单位成本率下降 60%。",
       "keywords": [
         "国际化产品",
         "策略设计",
@@ -120,19 +105,13 @@
     },
     {
       "id": "baidu",
-      "type": "internship",
-      "category": [
-        "AI产品"
-      ],
       "company": "百度",
-      "companyEn": "Baidu",
       "department": "MEG 小说事业部",
       "role": "AI 创新产品实习生",
       "date": "2024.11 - 2025.02",
-      "status": "实习经历",
       "gradient": "linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)",
       "logo": "百",
-      "abstract": "探索 AI+ 小说赛道，搭建热门角色 AI 剧场。定义产品功能框架与模型训练思路，产品上线后人均对话轮次 5.3 轮，开口率 36.5%。",
+      "abstract": "探索 AI+ 小说赛道，搭建热门角色 AI 剧场。产品上线后人均对话轮次 5.3 轮，开口率 36.5%，用户满意度 90%。",
       "keywords": [
         "AI产品",
         "模型训练",
@@ -160,19 +139,13 @@
     },
     {
       "id": "netease",
-      "type": "internship",
-      "category": [
-        "策略产品"
-      ],
       "company": "网易云音乐",
-      "companyEn": "NetEase Cloud Music",
       "department": "产品创新中心",
       "role": "策略产品实习生",
       "date": "2025.04 - 2025.06",
-      "status": "实习经历",
       "gradient": "linear-gradient(135deg, #DC2626 0%, #B91C1C 100%)",
       "logo": "易",
-      "abstract": "负责播客 FM 场景功能设计与兴趣标签系统建设，功能上线后 CTR 14.31%，次日留存 53.42%；标签模块 CTR 24.59%，较基准提升 7.27%。",
+      "abstract": "负责播客 FM 场景功能设计与兴趣标签系统建设，CTR 14.31%，次日留存 53.42%；标签模块 CTR 24.59%。",
       "keywords": [
         "内容分发",
         "兴趣标签",
@@ -193,22 +166,17 @@
           }
         ]
       }
-    },
+    }
+  ],
+  "works": [
     {
       "id": "agent-product",
-      "type": "project",
-      "category": [
-        "AI产品"
-      ],
       "company": "朋友圈人设生成器",
-      "companyEn": "Social Persona Generator",
-      "department": "Agent 产品",
       "role": "独立搭建",
       "date": "2026.03",
-      "status": "个人项目",
       "gradient": "linear-gradient(135deg, #0891B2 0%, #0E7490 100%)",
       "logo": "🤖",
-      "abstract": "面向用户 P 图学习成本高、交互繁琐的痛点，采用 Agent + Workflow 架构，通过自然语言对话实现 AI 图像生成服务。",
+      "abstract": "面向用户 P 图学习成本高、交互繁琐的痛点，采用 Agent + Workflow 架构，通过自然语言对话和多轮追问实现 AI 图像生成服务，提供低学习成本、高质量的 AI 图像体验。",
       "keywords": [
         "Agent",
         "Workflow",
@@ -229,23 +197,17 @@
           }
         ]
       }
-    },
+    }
+  ],
+  "schoolProjects": [
     {
       "id": "aging-research",
-      "type": "project",
-      "category": [
-        "产品调研",
-        "数据分析"
-      ],
-      "company": "APP 适老化改造调查",
-      "companyEn": "App Accessibility Research",
-      "department": "市场调研",
+      "company": "互联网 APP 适老化改造调查",
       "role": "队长",
       "date": "2020.12 - 2021.04",
-      "status": "学术项目",
       "gradient": "linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)",
       "logo": "📊",
-      "abstract": "采用德尔菲法、Python 爬虫与 SPSS 多元回归分析，回收 4000+ 有效问卷，为国内软件适老化改造提出科学实证优化建议。",
+      "abstract": "采用德尔菲法、Python 爬虫与 SPSS 多元回归分析，回收 4000+ 有效问卷，为国内软件适老化改造提出科学的实证优化建议。",
       "keywords": [
         "舆情分析",
         "Python爬虫",
@@ -258,15 +220,47 @@
         "highlights": [
           {
             "title": "舆情分析",
-            "content": "采用德尔菲法确定项目主题词，使用 Python 编写爬虫工具，在主流社交媒体上采集并分析近 10 年项目相关数据，通过数据处理，构建多维指标体系定量评估市场舆情。"
+            "content": "采用德尔菲法确定项目主题词，使用 Python 编写爬虫工具，在主流社交媒体上采集并分析近10年项目相关数据，通过数据处理构建多维指标体系定量评估市场舆情，科学论证项目实施的必要性与操作可行性。"
           },
           {
             "title": "问卷调查",
-            "content": "养老院实地访谈，线上线下不同人群分层同步发放问卷，最终回收有效问卷 4000 余份，后续对问卷反馈进行深度挖掘，准确识别潜在需求。"
+            "content": "养老院实地访谈，线上线下不同人群分层同步发放问卷，最终回收有效问卷 4000 余份，后续对问卷反馈进行深度挖掘，准确识别潜在需求，为策略优化提供精确依据。"
           },
           {
             "title": "数据分析",
-            "content": "利用 SPSS 软件对数据进行了严格的信度和效度检验，采用多变量回归和因子分析等先进统计方法，深入挖掘数据之间的内在联系，为国内软件适老化改造提出了科学的实证性优化建议。"
+            "content": "利用 SPSS 软件对数据进行了严格的信度和效度检验，采用多变量回归和因子分析等统计方法，深入挖掘数据之间的内在联系，为国内软件适老化改造提出了科学的实证性优化建议。"
+          }
+        ]
+      }
+    },
+    {
+      "id": "hanfu-project",
+      "company": "银河衣橱汉服电商平台",
+      "role": "队长",
+      "date": "2020.04 - 2021.05",
+      "gradient": "linear-gradient(135deg, #EC4899 0%, #BE185D 100%)",
+      "logo": "👘",
+      "abstract": "大创国家级结项。设计并实施问卷调查，回收有效问卷 800 份，绘制用户画像；论文发表于《商业文化》期刊；运营公众号粉丝 5k+。",
+      "keywords": [
+        "定量调研",
+        "用户画像",
+        "论文发表",
+        "社群运营",
+        "大创国家级"
+      ],
+      "details": {
+        "highlights": [
+          {
+            "title": "定量调研",
+            "content": "设计并实施问卷调查，收集不同用户群体对传统服饰的认知、购买意愿、平台使用意愿等基本信息，成功回收问卷 800 份，通过定量分析和重度用户深度访谈锁定目标客群，绘制详细的用户画像。"
+          },
+          {
+            "title": "论文撰写",
+            "content": "综合前期调研数据和项目实施阶段成果，撰写论文《汉服市场发展问题及策略研究》，文章梳理了汉服的历史文化价值，结合当下外部环境，探讨了当前市场痛点并提出了市场发展的策略，该论文成功发表于《商业文化》期刊。"
+          },
+          {
+            "title": "社群运营",
+            "content": "日常自制高质量知识内容与社群抽奖活动，成功运营并推广以传统服饰知识为核心内容的公众号，累计粉丝数突破 5 千人，文章阅读量平均 400+，同时组织线下同好主题分享会 7 次，覆盖人群 400 人。"
           }
         ]
       }
@@ -296,10 +290,22 @@
       "nickname": "主人公",
       "emoji": "💜",
       "traits": [
-        { "trait": "E 外向", "desc": "跨部门沟通与多方协作" },
-        { "trait": "N 直觉", "desc": "洞察趋势，预判产品方向" },
-        { "trait": "F 情感", "desc": "深度共情用户需求" },
-        { "trait": "J 判断", "desc": "结构化策略体系搭建" }
+        {
+          "trait": "E 外向",
+          "desc": "跨部门沟通与多方协作"
+        },
+        {
+          "trait": "N 直觉",
+          "desc": "洞察趋势，预判产品方向"
+        },
+        {
+          "trait": "F 情感",
+          "desc": "深度共情用户需求"
+        },
+        {
+          "trait": "J 判断",
+          "desc": "结构化策略体系搭建"
+        }
       ],
       "pmConnection": "ENFJ 主人公人格天然适配策略产品经理：外向（E）让跨团队协作游刃有余，直觉（N）帮助从数据中捕捉信号预判方向，情感（F）确保用户视角始终在线，判断（J）则是搭建系统性策略框架的底层能力。"
     },
@@ -307,7 +313,12 @@
       "sign": "摩羯座",
       "emoji": "♑",
       "element": "土象星座",
-      "traits": ["踏实稳重", "目标导向", "坚韧不拔", "追求卓越"],
+      "traits": [
+        "踏实稳重",
+        "目标导向",
+        "坚韧不拔",
+        "追求卓越"
+      ],
       "pmConnection": "摩羯座的耐心与严谨，是策略产品经理最硬核的底层操作系统。策略优化从不是一蹴而就——持续的 A/B 实验、数据验证、长期迭代打磨需要的正是摩羯与生俱来的持久力与节奏感。"
     },
     "personalityCards": [

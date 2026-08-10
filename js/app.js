@@ -38,6 +38,8 @@
     $('#sbBio').textContent = b.summary;
     $('#sbContact').innerHTML = [
       b.email ? `<a href="mailto:${esc(b.email)}">📧 ${esc(b.email)}</a>` : '',
+      b.wechat ? `<span>💬 微信：${esc(b.wechat)}</span>` : '',
+      b.phone ? `<span>📱 ${esc(b.phone)}</span>` : '',
       b.location ? `<span>📍 ${esc(b.location)}</span>` : '',
     ].filter(Boolean).join('');
   }

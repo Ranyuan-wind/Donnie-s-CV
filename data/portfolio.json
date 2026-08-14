@@ -233,10 +233,12 @@
           },
           {
             "title": "成本控制",
-            "content": "完整试穿链路成本约 $0.01/次（IDM-VTON ~$0.004/次 + Qwen2-VL 7B ~$0.0015/次），低成本实现高质量的 AI 虚拟试衣体验。"
+            "content": "完整试穿链路成本约 $0.005/次（IDM-VTON ~$0.004/次 + Qwen2-VL 7B ~$0.0015/次），低成本实现高质量的 AI 虚拟试衣体验。"
           }
         ]
       },
+      "headerImage": "assets/curator-header.png",
+      "headerImageLabel": "用户核心需求点",
       "link": "https://github.com/Ranyuan-wind/curator",
       "linkLabel": "查看 GitHub 仓库"
     }

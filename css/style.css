@@ -501,6 +501,11 @@ a{color:inherit;text-decoration:none}
 }
 .btn-ghost:hover{background:var(--bg);border-color:var(--m)}
 
+/* Modal header image */
+.modal-hero{margin-bottom:20px}
+.modal-hero-label{font-size:12px;font-weight:700;color:var(--m);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.modal-hero-img{width:100%;border-radius:var(--r-md);box-shadow:0 2px 12px rgba(0,0,0,.06);display:block}
+
 /* Modal workflow image & CTA */
 .modal-workflow{margin-bottom:20px;background:var(--bg);border-radius:var(--r-md);padding:16px 18px}
 .modal-workflow-label{font-size:12px;font-weight:700;color:var(--m);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}

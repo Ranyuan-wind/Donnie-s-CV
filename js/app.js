@@ -253,6 +253,14 @@
     const highlights = item.details?.highlights || [];
     let extraHTML = '';
 
+    // Header image (核心需求头图)
+    if (item.headerImage) {
+      extraHTML += `<div class="modal-hero">
+        ${item.headerImageLabel ? `<div class="modal-hero-label">${esc(item.headerImageLabel)}</div>` : ''}
+        <img src="${esc(item.headerImage)}" alt="${esc(item.company)}" class="modal-hero-img" onerror="this.style.display='none'">
+      </div>`;
+    }
+
     // Workflow image
     if (item.workflowImage) {
       extraHTML += `<div class="modal-workflow">

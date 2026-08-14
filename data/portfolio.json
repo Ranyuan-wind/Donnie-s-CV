@@ -225,12 +225,12 @@
             "content": "针对灵感碎片化、收藏易遗忘、看不到上身效果三大痛点，构建「碎片化收藏 → 一键收进衣橱 → AI 看上身效果 → 智能搭配 → 选对尺码」的完整链路。"
           },
           {
-            "title": "六大核心功能",
-            "content": "简便录入 + AI 识别（一条链接 / 截图即可导入，AI 自动提取品类、颜色、材质、风格）、AI 虚拟试穿（IDM-VTON 图生图生成上身效果）、集中衣橱管理、AI 搭配推荐、身材分析 + 尺码推荐（本地算 BMI / 体型分类 / GB/T 1335 尺码）、AIGC 安全合规。"
+            "title": "核心功能",
+            "content": "简便录入 + AI 识别、AI 虚拟试穿（IDM-VTON）、集中衣橱管理、AI 搭配推荐、身材分析 + 尺码推荐、AIGC 安全合规。"
           },
           {
             "title": "技术架构",
-            "content": "Next.js 15 + React 19 + TypeScript 5 + Tailwind CSS 3 技术栈，Prisma 6 + SQLite 数据层，Zustand 状态管理，支持 PWA 安装。AI Provider 抽象层可插拔接入多模型并内置 Mock 降级方案，无 API Key 也能跑基础功能；withSafety 中间件四阶段安全审核 + 三级防御体系，对标《生成式 AI 管理办法》。"
+            "content": "核心功能：虚拟试穿基于 IDM-VTON 图生图生成上身效果，服装属性识别与智能裁剪基于 Qwen2-VL 7B 多模态能力，前端 Next.js 15 + React 19 + TypeScript，数据层 Prisma 6 + SQLite，支持 PWA 安装，AI Provider 抽象层可插拔多模型并内置 Mock 降级。安全合规：从「输入拦截 → 清洗 → 生成 → 输出审核」四阶段角度，用本地敏感词库、云端人脸库 / OCR、AI 语义研判三级能力识别违规内容，对标《生成式 AI 管理办法》。"
           },
           {
             "title": "成本控制",

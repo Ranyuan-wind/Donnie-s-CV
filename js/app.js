@@ -192,7 +192,7 @@
           </div>
           <div class="pv2-stats">
             <div class="pv2-stat"><div class="num">4</div><div class="lbl">实习经历</div></div>
-            <div class="pv2-stat"><div class="num">3</div><div class="lbl">项目经历</div></div>
+            <div class="pv2-stat"><div class="num">4</div><div class="lbl">项目经历</div></div>
             <div class="pv2-stat"><div class="num">985</div><div class="lbl">硕士在读</div></div>
           </div>
           <div class="pv2-body">
